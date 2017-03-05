@@ -1,11 +1,12 @@
 
 import { NativeModules } from 'react-native';
-const { RNReactNativeDocViewer } = NativeModules;
 
-export default {
-  open: NativeModules.RNReactNativeDocViewer.open
-}
+var RNReactNativeDocViewer = require('react-native').NativeModules.RNReactNativeDocViewer;
 
-export default {
-  addEvent: NativeModules.RNReactNativeDocViewer.addEvent
-}
+module.exports = {
+  addEvent: function () {
+  },
+  open: function() {
+  },
+
+};
