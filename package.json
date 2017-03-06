@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-doc-viewer",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Document Viewer for IOS and Android",
   "main": "index.js",
   "scripts": {
