@@ -1,6 +1,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RNReactNativeDocViewer.h"
+#import <React/RCTLog.h>
 
 @implementation RNReactNativeDocViewer
 
