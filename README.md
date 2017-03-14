@@ -45,10 +45,18 @@
 
 ## Usage
 ```javascript
-import RNReactNativeDocViewer from 'react-native-react-native-doc-viewer';
+import RNReactNativeDocViewer from 'react-native-doc-viewer';
 
-// TODO: What to do with the module?
-RNReactNativeDocViewer;
+  //Handle Function
+  handlePress = () => {
+    RNReactNativeDocViewer.openDoc([{
+     url:"http://www.snee.com/xml/xslt/sample.doc",
+     fileName:"sample"
+   }]);
+  }
+  
+  
+  <Button onPress={this.RNReactNativeDocViewer.bind(this)}></Button>
 ```
 
 
