@@ -13,7 +13,8 @@
 #import <Foundation/Foundation.h>
 #import <QuickLook/QuickLook.h>
 
-@interface RNReactNativeDocViewer : NSObject <RCTBridgeModule>
-
+@interface RNReactNativeDocViewer : NSObject <RCTBridgeModule, QLPreviewControllerDelegate, QLPreviewControllerDataSource, QLPreviewItem>
+@property (strong, nonatomic) NSURL* fileUrl;
+@property (readonly) NSURL* previewItemURL;
 @end
   
