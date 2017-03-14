@@ -24,8 +24,12 @@
    
    ![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/screenshot_xcode_addlibrary2.png "Xcode add Library")
    
+5.  When you Show http Links don't forget to set APP Transport Security Settings ->
+    Allow Arbitrary Loads to YES
+
+![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/plist_file.png "Plist")
    
-5. Run your project (`Cmd+R`)<
+6. Run your project (`Cmd+R`)<
 
 #### Android on the Roadmap
 
@@ -71,5 +75,11 @@ import OpenFile from 'react-native-doc-viewer';
 ## Screenshots
 
 ![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot.png "Screenshot 1")
+
+
+#### Roadmap
+
+- Android, Windows Support
+- saveAndPreviewBase64File Function
 
   
