@@ -29,8 +29,9 @@ RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
 }
 
 
-RCT_EXPORT_METHOD(openDoc:(NSArray *)array)
+RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
+    
     __weak RNReactNativeDocViewer* weakSelf = self;
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
@@ -41,6 +42,9 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array)
         RCTLogInfo(@"Pretending to create an event at %@", url);
         NSData* dat = [NSData dataWithContentsOfURL:url];
         if (dat == nil) {
+            if (callback) {
+                callback(@[[NSNull null], @"DATA nil"]);
+            }
             return;
         }
         NSString* fileName = [url lastPathComponent];
@@ -57,11 +61,12 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array)
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
             cntr.delegate = weakSelf;
             cntr.dataSource = weakSelf;
-            
+            if (callback) {
+                callback(@[[NSNull null], array]);
+            }
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
             [root presentViewController:cntr animated:YES completion:nil];
         });
-        
         
     });
 }

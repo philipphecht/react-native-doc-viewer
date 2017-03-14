@@ -1,14 +1,20 @@
 
 {
   "name": "react-native-doc-viewer",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "description": "Document Viewer for IOS -Supports pdf, png, jpg, xls, ppt, doc, docx, pptx, xlx",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "react",
+    "native",
+    "ios",
+    "android",
+    "pdf",
+    "Doc Viewer"
   ],
   "author": "Philipp Hecht",
   "license": "MIT",
@@ -21,7 +27,7 @@
     "type": "git",
     "url": "git+https://github.com/philinheaven/react-native-doc-viewer.git"
   },
-    "readme": "ERROR: No README data found!",
+    "readme": "https://github.com/philinheaven/react-native-doc-viewer/blob/master/README.md",
   "homepage": "https://github.com/philinheaven/react-native-doc-viewer/blob/master/README.md",
   "main": "index.js"
 }

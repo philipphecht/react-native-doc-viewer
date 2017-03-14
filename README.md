@@ -61,10 +61,16 @@ import OpenFile from 'react-native-doc-viewer';
 
   //Handle Function Internet
   handlePress = () => {
-    OpenFile.openDoc([{
+   OpenFile.openDoc([{
      url:"http://www.snee.com/xml/xslt/sample.doc",
-     fileName:"sample"
-   }]);
+     fileName:"smaple"
+   }], (error, url) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(url)
+      }
+    })
   }
   
   //Handle Function Local File
@@ -72,7 +78,13 @@ import OpenFile from 'react-native-doc-viewer';
     OpenFile.openDoc([{
      url:"{Path/to/the/document}",
      fileName:"sample"
-   }]);
+   }], (error, url) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(url)
+      }
+    })
   }
   
   
