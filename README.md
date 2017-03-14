@@ -5,7 +5,7 @@
 
 `$ npm install react-native-react-native-doc-viewer --save`
 
-### Mostly automatic installation
+### Automatic installation
 
 `$ react-native link react-native-react-native-doc-viewer`
 
@@ -19,7 +19,7 @@
 3. In XCode, in the project navigator, select your project. Add `libRNReactNativeDocViewer.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
 
-#### Android
+#### Android on the Roadmap
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
   - Add `import com.reactlibrary.RNReactNativeDocViewerPackage;` to the imports at the top of the file
@@ -34,7 +34,7 @@
       compile project(':react-native-react-native-doc-viewer')
   	```
 
-#### Windows
+#### Windows on the Roadmap
 [Read it! :D](https://github.com/ReactWindows/react-native)
 
 1. In Visual Studio add the `RNReactNativeDocViewer.sln` in `node_modules/react-native-react-native-doc-viewer/windows/RNReactNativeDocViewer.sln` folder to their solution, reference from their app.
