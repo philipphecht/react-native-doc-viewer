@@ -1,8 +1,8 @@
 
 {
   "name": "react-native-doc-viewer",
-  "version": "1.0.14",
-  "description": "Document Viewer for IOS and Android",
+  "version": "1.1.0",
+  "description": "Document Viewer for IOS",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
   "keywords": [
     "react-native"
   ],
-  "author": "Phil Pike",
+  "author": "Philipp Hecht",
   "license": "MIT",
   "peerDependencies": {
     "react-native": "^0.39.2",
