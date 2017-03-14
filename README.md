@@ -50,4 +50,10 @@ import RNReactNativeDocViewer from 'react-native-react-native-doc-viewer';
 // TODO: What to do with the module?
 RNReactNativeDocViewer;
 ```
+
+
+## Screenshots
+
+![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot.png "Screenshot 1")
+
   
