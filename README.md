@@ -85,6 +85,12 @@ import OpenFile from 'react-native-doc-viewer';
 ![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot.png "Screenshot 1")
 
 
+![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot1.png "Screenshot 2")
+
+
+![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot2.png "Screenshot 3")
+
+
 #### Roadmap
 
 - Android, Windows Support
