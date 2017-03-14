@@ -25,7 +25,7 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
 {
-    RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
+    RCTLogInfo(@"TEST Module %@ at %@", name, location);
 }
 
 
