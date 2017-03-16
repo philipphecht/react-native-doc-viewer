@@ -1,6 +1,18 @@
 
 # react-native-doc-viewer
 
+
+A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc, ppt, xlsx, docx, pptx etc.)
+
+Changelog:
+
+```
+1.3.0
+        - Beta Android Doc Viewer Implementation 
+
+```
+
+
 ## Getting started
 
 `$ npm install react-native-doc-viewer --save`
@@ -103,9 +115,14 @@ import OpenFile from 'react-native-doc-viewer';
 ![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot2.png "Screenshot 3")
 
 
-#### Roadmap
+### ROADMAP
+ * IOS react-native >0.42
+ * Android Stable
+ * Base64StringtoFile
+ * Windows Support 
+ 
+ Copyright (c) 2017-present, Philipp Hecht
+ philipp.hecht@icloud.com
 
-- Android, Windows Support
-- saveAndPreviewBase64File Function
 
   
