@@ -55,7 +55,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             System.out.println("Found: " + url);
 
             // Begin the Download Task
-            //new FileDownloaderAsyncTask(callbackContext, url, fileName).execute();
+            new FileDownloaderAsyncTask(callback, url, fileName).execute();
 
             //return true;
             callback.invoke(true);
@@ -76,7 +76,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
      * @param url
      * @return
      */
-    private File downloadFile(String url, CallbackContext callbackContext) {
+    private File downloadFile(String url, Callback callback) {
 
         try {
             // get an instance of a cookie manager since it has access to our
@@ -120,11 +120,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            callbackContext.error(ERROR_FILE_NOT_FOUND);
+            callback.error(ERROR_FILE_NOT_FOUND);
             return null;
         } catch (IOException e) {
             e.printStackTrace();
-            callbackContext.error(ERROR_UNKNOWN_ERROR);
+            callback.error(ERROR_UNKNOWN_ERROR);
             return null;
         }
     }
@@ -136,7 +136,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         private final String url;
         private final String fileName;
 
-        public FileDownloaderAsyncTask(CallbackContext callbackContext,
+        public FileDownloaderAsyncTask(Callback callbackContext,
                 String url, String fileName) {
             super();
             this.callbackContext = callbackContext;
