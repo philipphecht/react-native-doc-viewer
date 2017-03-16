@@ -4,7 +4,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
-
+import com.facebook.react.bridge.WritableNativeArray;
+import com.facebook.react.bridge.WritableNativeMap;
 //Third Libraries
 import java.io.*;
 import java.io.File;
@@ -14,9 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -43,10 +41,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   }
     
   @ReactMethod
-  public void openDoc(JSONArray args, Callback callback) {
+  public void openDoc(WritableNativeArray args, Callback callback) {
       try {
-        final JSONObject arg_object = args.getJSONObject(0);
-        if (arg_object.getString("url") != null && arg_object.getString("fileName") != null) {
+        final WritableNativeMap arg_object = args;
+        System.out.println("Found: " + arg_object);
+        /*if (arg_object.getString("url") != null && arg_object.getString("fileName") != null) {
 
             // parameter parsing
             final String url = arg_object.getString("url");
@@ -55,12 +54,12 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
             // Begin the Download Task
             new FileDownloaderAsyncTask(callback, url, fileName).execute();
-
+*/
             //return true;
             callback.invoke(true);
-        }else{
+        /*}else{
             callback.invoke(false);
-        }
+        }*/
         //return false;
        } catch (Exception e) {
             callback.invoke(false);

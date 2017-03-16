@@ -103,7 +103,11 @@ import OpenFile from 'react-native-doc-viewer';
   }
   
   
-  <Button onPress={this.handlePress.bind(this)}></Button>
+   <Button
+          onPress={this.handlePress.bind(this)}
+          title="Press Me"
+          accessibilityLabel="See an informative alert"
+        />
 ```
 
 
