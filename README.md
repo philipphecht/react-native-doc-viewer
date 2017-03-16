@@ -38,12 +38,12 @@
   - Add `new RNReactNativeDocViewerPackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
   	```
-  	include ':react-native-react-native-doc-viewer'
-  	project(':react-native-react-native-doc-viewer').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-react-native-doc-viewer/android')
+  	include ':react-native-doc-viewer'
+  	project(':react-native-doc-viewer').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-doc-viewer/android')
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
-      compile project(':react-native-react-native-doc-viewer')
+      compile project(':react-native-doc-viewer')
   	```
 
 #### Windows on the Roadmap
