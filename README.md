@@ -4,10 +4,13 @@
 
 A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc, ppt, xlsx, docx, pptx etc.)
 
+![nodei.co](https://nodei.co/npm/react-native-doc-viewer.png?downloads=true&downloadRank=true&stars=true)
+
+
 Changelog:
 
 ```
-1.3.0
+1.3.2
         - Beta Android Doc Viewer Implementation 
 
 ```
@@ -32,14 +35,14 @@ Changelog:
 3. In XCode, in the project navigator, select your project. Add `libRNReactNativeDocViewer.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Linked Frameworks and Libraries must have this 2 Libraries (AssetsLibrary.framework & QuickLock.framework). When not you have to add them.
 
-   ![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/screenshot_xcode_addlibrary.png "Xcode add Library")
+   ![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/screenshot_xcode_addlibrary.png "Xcode add Library")
    
-   ![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/screenshot_xcode_addlibrary2.png "Xcode add Library")
+   ![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/screenshot_xcode_addlibrary2.png "Xcode add Library")
    
 5.  When you Show http Links don't forget to set APP Transport Security Settings ->
     Allow Arbitrary Loads to YES
 
-![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/plist_file.png "Plist")
+![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/plist_file.png "Plist")
    
 6. Run your project (`Cmd+R`)<
 
@@ -106,13 +109,13 @@ import OpenFile from 'react-native-doc-viewer';
 
 ## Screenshots
 
-![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot.png "Screenshot 1")
+![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/Screenshot.png "Screenshot 1")
 
 
-![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot1.png "Screenshot 2")
+![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/Screenshot1.png "Screenshot 2")
 
 
-![Alt text](https://github.com/philinheaven/react-native-doc-viewer/blob/master/Screenshots/Screenshot2.png "Screenshot 3")
+![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/Screenshot2.png "Screenshot 3")
 
 
 ### ROADMAP
