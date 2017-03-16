@@ -78,7 +78,7 @@ import OpenFile from 'react-native-doc-viewer';
   handlePress = () => {
    OpenFile.openDoc([{
      url:"http://www.snee.com/xml/xslt/sample.doc",
-     fileName:"smaple"
+     fileName:"sample"
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -106,7 +106,7 @@ import OpenFile from 'react-native-doc-viewer';
    <Button
           onPress={this.handlePress.bind(this)}
           title="Press Me"
-          accessibilityLabel="See an informative alert"
+          accessibilityLabel="Open the Doc"
         />
 ```
 
