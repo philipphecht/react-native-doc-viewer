@@ -5,7 +5,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 
-//Third Loibraries
+//Third Libraries
 import java.io.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,13 +47,13 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         final JSONObject arg_object = args.getJSONObject(0);
         if (arg_object.getString("url") && arg_object.getString("fileName")) {
 
-            // parse arguments
+            // parameter parsing
             final JSONObject arg_object = args.getJSONObject(0);
             final String url = arg_object.getString("url");
             final String fileName =arg_object.getString("fileName") ;
             System.out.println("Found: " + url);
 
-            // start async download task
+            // Begin the Download Task
             new FileDownloaderAsyncTask(callbackContext, url, fileName).execute();
 
             return true;
@@ -64,9 +64,9 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   }
     
     // used for all downloaded files, so we can find and delete them again.
-    private final static String FILE_PREFIX = "DH_";
+    private final static String FILE_TYPE_PREFIX = "DH_";
     /**
-     * downloads a file from the given url to external storage.
+     * downloads the file from the given url to external storage.
      *
      * @param url
      * @return
@@ -97,7 +97,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 extension = "pdf";
                 System.out.println("extension (default): " + extension);
             }
-            File f = File.createTempFile(FILE_PREFIX, "." + extension,
+            File f = File.createTempFile(FILE_TYPE_PREFIX, "." + extension,
                     null);
             // make sure the receiving app can read this file
             f.setReadable(true, false);
@@ -152,20 +152,18 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         @Override
         protected void onPostExecute(File result) {
             if (result == null) {
-                // case has already been handled
+                // Has already been handled
                 return;
             }
 
             Context context = cordova.getActivity().getApplicationContext();
 
-            // get mime type of file data
+            // mime type of file data
             String mimeType = getMimeType(url);
             if (mimeType == null) {
                 callbackContext.error(ERROR_UNKNOWN_ERROR);
                 return;
             }
-
-            // start an intent with the file
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.fromFile(result), mimeType);
