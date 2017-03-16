@@ -10,7 +10,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
-1.3.8
+1.4.0
         - Android Doc Viewer Implementation 
 
 ```
@@ -124,7 +124,6 @@ import OpenFile from 'react-native-doc-viewer';
 
 ### ROADMAP
  * IOS react-native >0.42
- * Android Stable
  * Base64StringtoFile
  * Windows Support 
  
