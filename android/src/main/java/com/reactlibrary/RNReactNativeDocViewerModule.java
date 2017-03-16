@@ -38,6 +38,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   public static final int ERROR_NO_HANDLER_FOR_DATA_TYPE = 53;
@@ -65,12 +66,9 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String fileName =arg_object.getString("fileName");
             // Begin the Download Task
             new FileDownloaderAsyncTask(callback, url, fileName).execute();
-
-            //return true;
         }else{
             callback.invoke(false);
         }
-        //return false;
        } catch (Exception e) {
             callback.invoke(false);
        }
@@ -114,6 +112,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                     null);
             // make sure the receiving app can read this file
             f.setReadable(true, false);
+            System.out.println(f.getPath());
             FileOutputStream outStream = new FileOutputStream(f);
 
             byte[] buffer = new byte[1024];
@@ -164,14 +163,14 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
     
   private class FileDownloaderAsyncTask extends AsyncTask<Void, Void, File> {
 
-        private final Callback callbackContext;
+        private final Callback callback;
         private final String url;
         private final String fileName;
        
-        public FileDownloaderAsyncTask(Callback callbackContext,
+        public FileDownloaderAsyncTask(Callback callback,
                 String url, String fileName) {
             super();
-            this.callbackContext = callbackContext;
+            this.callback = callback;
             this.url = url;
             this.fileName = fileName;
         }
@@ -179,7 +178,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         @Override
         protected File doInBackground(Void... arg0) {
             if (!url.startsWith("file://")) {
-                return downloadFile(url, callbackContext);
+                return downloadFile(url, callback);
             } else {
                 File file = new File(url.replace("file://", ""));
                 return file;
@@ -190,6 +189,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         protected void onPostExecute(File result) {
             if (result == null) {
                 // Has already been handled
+                
                 return;
             }
 
@@ -198,21 +198,21 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             // mime type of file data
             String mimeType = getMimeType(url);
             if (mimeType == null) {
-                //callbackContext.error(ERROR_UNKNOWN_ERROR);
                 return;
             }
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.fromFile(result), mimeType);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //context.startActivity(intent);
-
-                //callbackContext.success(fileName); // Thread-safe.
+                context.startActivity(intent);
+          
+                // Thread-safe.
+                callback.invoke(fileName);
             } catch (ActivityNotFoundException e) {
 				// happens when we start intent without something that can
                 // handle it
+                callback.invoke(false);
                 e.printStackTrace();
-                //callbackContext.error(ERROR_NO_HANDLER_FOR_DATA_TYPE);
             }
 
         }
