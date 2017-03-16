@@ -46,7 +46,7 @@ Changelog:
    
 6. Run your project (`Cmd+R`)<
 
-#### Android on the Roadmap
+#### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
   - Add `import com.reactlibrary.RNReactNativeDocViewerPackage;` to the imports at the top of the file

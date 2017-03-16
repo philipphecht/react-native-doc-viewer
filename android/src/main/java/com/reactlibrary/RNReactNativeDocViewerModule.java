@@ -43,7 +43,8 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   }
     
   @ReactMethod
-  public void openDoc(JSONArray args, Callback callback) throws JSONException {
+  public void openDoc(JSONArray args, Callback callback) {
+      try {
         final JSONObject arg_object = args.getJSONObject(0);
         if (arg_object.getString("url") && arg_object.getString("fileName")) {
 
@@ -54,13 +55,17 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             System.out.println("Found: " + url);
 
             // Begin the Download Task
-            new FileDownloaderAsyncTask(callbackContext, url, fileName).execute();
+            //new FileDownloaderAsyncTask(callbackContext, url, fileName).execute();
 
-            return true;
+            //return true;
+            callback.invoke(true);
         }else{
-            callback.invoke("error");
+            callback.invoke(false);
         }
-        return false;
+        //return false;
+       } catch (Exception e) {
+            callback.invoke(false);
+       }
   }
     
     // used for all downloaded files, so we can find and delete them again.
