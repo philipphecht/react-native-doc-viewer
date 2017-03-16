@@ -59,16 +59,12 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   public void openDoc(ReadableArray args, Callback callback) {
       final ReadableMap arg_object = args.getMap(0);
       try {
-        System.out.println("Found: " + args);
         if (arg_object.getString("url") != null && arg_object.getString("fileName") != null) {
-
             // parameter parsing
             final String url = arg_object.getString("url");
-            final String fileName =arg_object.getString("fileName") ;
-            System.out.println("Found: " + url);
-
+            final String fileName =arg_object.getString("fileName");
             // Begin the Download Task
-            //new FileDownloaderAsyncTask(callback, url, fileName).execute();
+            new FileDownloaderAsyncTask(callback, url, fileName).execute();
 
             //return true;
         }else{
@@ -132,11 +128,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            //callback.error(ERROR_FILE_NOT_FOUND);
+            callback.invoke(ERROR_FILE_NOT_FOUND);
             return null;
         } catch (IOException e) {
             e.printStackTrace();
-            //callback.error(ERROR_UNKNOWN_ERROR);
+            callback.invoke(ERROR_UNKNOWN_ERROR);
             return null;
         }
     }
@@ -171,7 +167,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         private final Callback callbackContext;
         private final String url;
         private final String fileName;
-
+       
         public FileDownloaderAsyncTask(Callback callbackContext,
                 String url, String fileName) {
             super();
@@ -197,7 +193,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 return;
             }
 
-            //Context context = ((Activity)getReactApplicationContext().getBaseContext());
+            Context context = getReactApplicationContext().getBaseContext();
 
             // mime type of file data
             String mimeType = getMimeType(url);
