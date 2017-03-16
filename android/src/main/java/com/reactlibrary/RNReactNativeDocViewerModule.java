@@ -46,10 +46,9 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   public void openDoc(JSONArray args, Callback callback) {
       try {
         final JSONObject arg_object = args.getJSONObject(0);
-        if (arg_object.getString("url") && arg_object.getString("fileName")) {
+        if (arg_object.getString("url") != null && arg_object.getString("fileName") != null) {
 
             // parameter parsing
-            final JSONObject arg_object = args.getJSONObject(0);
             final String url = arg_object.getString("url");
             final String fileName =arg_object.getString("fileName") ;
             System.out.println("Found: " + url);
@@ -120,19 +119,43 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            callback.error(ERROR_FILE_NOT_FOUND);
+            //callback.error(ERROR_FILE_NOT_FOUND);
             return null;
         } catch (IOException e) {
             e.printStackTrace();
-            callback.error(ERROR_UNKNOWN_ERROR);
+            //callback.error(ERROR_UNKNOWN_ERROR);
             return null;
         }
     }
+/**
+     * Returns the MIME Type of the file by looking at file name extension in
+     * the URL.
+     *
+     * @param url
+     * @return
+     */
+    private static String getMimeType(String url) {
+        String mimeType = null;
 
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            mimeType = mime.getMimeTypeFromExtension(extension);
+        }
+
+        System.out.println("Mime Type: " + mimeType);
+
+        if (mimeType == null) {
+            mimeType = "application/pdf";
+            System.out.println("Mime Type (default): " + mimeType);
+        }
+
+        return mimeType;
+    }
     
   private class FileDownloaderAsyncTask extends AsyncTask<Void, Void, File> {
 
-        private final CallbackContext callbackContext;
+        private final Callback callbackContext;
         private final String url;
         private final String fileName;
 
@@ -161,26 +184,26 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 return;
             }
 
-            Context context = cordova.getActivity().getApplicationContext();
+            //Context context = ((Activity)getReactApplicationContext().getBaseContext());
 
             // mime type of file data
             String mimeType = getMimeType(url);
             if (mimeType == null) {
-                callbackContext.error(ERROR_UNKNOWN_ERROR);
+                //callbackContext.error(ERROR_UNKNOWN_ERROR);
                 return;
             }
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.fromFile(result), mimeType);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                //context.startActivity(intent);
 
-                callbackContext.success(fileName); // Thread-safe.
+                //callbackContext.success(fileName); // Thread-safe.
             } catch (ActivityNotFoundException e) {
 				// happens when we start intent without something that can
                 // handle it
                 e.printStackTrace();
-                callbackContext.error(ERROR_NO_HANDLER_FOR_DATA_TYPE);
+                //callbackContext.error(ERROR_NO_HANDLER_FOR_DATA_TYPE);
             }
 
         }
