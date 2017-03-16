@@ -6,6 +6,21 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableArray;
+
+/* bridge react native
+int size();
+boolean isNull(int index);
+boolean getBoolean(int index);
+double getDouble(int index);
+int getInt(int index);
+String getString(int index);
+ReadableArray getArray(int index);
+ReadableMap getMap(int index);
+ReadableType getType(int index);
+*/
 //Third Libraries
 import java.io.*;
 import java.io.File;
@@ -41,11 +56,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   }
     
   @ReactMethod
-  public void openDoc(WritableNativeArray args, Callback callback) {
+  public void openDoc(ReadableArray args, Callback callback) {
+      final ReadableMap arg_object = args.getMap(0);
       try {
-        final WritableNativeMap arg_object = args;
-        System.out.println("Found: " + arg_object);
-        /*if (arg_object.getString("url") != null && arg_object.getString("fileName") != null) {
+        System.out.println("Found: " + args);
+        if (arg_object.getString("url") != null && arg_object.getString("fileName") != null) {
 
             // parameter parsing
             final String url = arg_object.getString("url");
@@ -53,13 +68,12 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             System.out.println("Found: " + url);
 
             // Begin the Download Task
-            new FileDownloaderAsyncTask(callback, url, fileName).execute();
-*/
+            //new FileDownloaderAsyncTask(callback, url, fileName).execute();
+
             //return true;
-            callback.invoke(true);
-        /*}else{
+        }else{
             callback.invoke(false);
-        }*/
+        }
         //return false;
        } catch (Exception e) {
             callback.invoke(false);
