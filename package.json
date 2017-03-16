@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-doc-viewer",
-  "version": "1.2.3",
+  "version": "1.2.7",
   "description": "Document Viewer for IOS -Supports pdf, png, jpg, xls, ppt, doc, docx, pptx, xlx",
   "main": "index.js",
   "scripts": {
@@ -25,9 +25,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/philinheaven/react-native-doc-viewer.git"
+    "url": "git+https://github.com/philipphecht/react-native-doc-viewer.git"
   },
-    "readme": "https://github.com/philinheaven/react-native-doc-viewer/blob/master/README.md",
-  "homepage": "https://github.com/philinheaven/react-native-doc-viewer/blob/master/README.md",
+    "readme": "https://github.com/philipphecht/react-native-doc-viewer/blob/master/README.md",
+  "homepage": "https://github.com/philipphecht/react-native-doc-viewer/blob/master/README.md",
   "main": "index.js"
 }
