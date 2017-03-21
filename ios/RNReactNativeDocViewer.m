@@ -38,7 +38,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
         NSString* filename = dict[@"fileName"];
-        NSURL* url = [NSURL URLWithString:urlStr];
+        NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         RCTLogInfo(@"Pretending to create an event at %@", url);
         NSData* dat = [NSData dataWithContentsOfURL:url];
         if (dat == nil) {
