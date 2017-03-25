@@ -10,8 +10,8 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
-1.4.0
-        - Android Doc Viewer Implementation 
+1.4.3
+        - Android Doc Viewer Implementation. At the moment you have to install a Application that supports the Format
 
 ```
 
@@ -123,7 +123,7 @@ import OpenFile from 'react-native-doc-viewer';
 
 
 ### ROADMAP
- * IOS react-native >0.42
+ * Android Quicklook support without an external application
  * Base64StringtoFile
  * Windows Support 
  
