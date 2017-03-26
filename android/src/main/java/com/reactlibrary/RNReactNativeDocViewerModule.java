@@ -9,6 +9,7 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.views.webview.ReactWebViewManager;
 
 /* bridge react native
 int size();
@@ -39,10 +40,6 @@ import android.os.AsyncTask;
 import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
-import android.webkit.WebView;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.util.Log;
 
 public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
@@ -167,11 +164,9 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
     }
     
   private class FileDownloaderAsyncTask extends AsyncTask<Void, Void, File> {
-        private WebView webView;
         private final Callback callback;
         private final String url;
         private final String fileName;
-        private static final String TAG = "RNReactNativeDocViewer";
        
         public FileDownloaderAsyncTask(Callback callback,
                 String url, String fileName) {

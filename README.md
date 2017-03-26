@@ -10,7 +10,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
-2.2.1
+2.2.2
         - Android Doc Viewer Implementation. At the moment you have to install a Application that supports the Format
 
 ```
