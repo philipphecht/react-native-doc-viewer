@@ -39,11 +39,11 @@ import android.os.AsyncTask;
 import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
-//Webview
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.util.Log;
 
 public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   public static final int ERROR_NO_HANDLER_FOR_DATA_TYPE = 53;
@@ -75,7 +75,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             callback.invoke(false);
         }
        } catch (Exception e) {
-            callback.invoke(false);
+            callback.invoke(e.getMessage());
        }
   }
     
@@ -167,10 +167,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
     }
     
   private class FileDownloaderAsyncTask extends AsyncTask<Void, Void, File> {
-
+        private WebView webView;
         private final Callback callback;
         private final String url;
         private final String fileName;
+        private static final String TAG = "RNReactNativeDocViewer";
        
         public FileDownloaderAsyncTask(Callback callback,
                 String url, String fileName) {
@@ -198,7 +199,6 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             }
 
             Context context = getReactApplicationContext().getBaseContext();
-
             // mime type of file data
             String mimeType = getMimeType(url);
             if (mimeType == null) {
@@ -209,6 +209,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 intent.setDataAndType(Uri.fromFile(result), mimeType);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+          
                 // Thread-safe.
                 callback.invoke(fileName);
             } catch (ActivityNotFoundException e) {
