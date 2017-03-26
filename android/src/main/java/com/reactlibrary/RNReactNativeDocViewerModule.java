@@ -39,6 +39,10 @@ import android.os.AsyncTask;
 import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+import android.webkit.WebView;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   public static final int ERROR_NO_HANDLER_FOR_DATA_TYPE = 53;
@@ -189,7 +193,6 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         protected void onPostExecute(File result) {
             if (result == null) {
                 // Has already been handled
-                
                 return;
             }
 
@@ -205,14 +208,13 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 intent.setDataAndType(Uri.fromFile(result), mimeType);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-          
                 // Thread-safe.
                 callback.invoke(fileName);
             } catch (ActivityNotFoundException e) {
-				// happens when we start intent without something that can
-                // handle it
-                callback.invoke(false);
-                e.printStackTrace();
+                System.out.println("ERROR");
+                System.out.println(e.getMessage());
+                callback.invoke(e.getMessage());
+                //e.printStackTrace();
             }
 
         }
