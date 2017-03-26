@@ -39,6 +39,7 @@ import android.os.AsyncTask;
 import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+//Webview
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -79,7 +80,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   }
     
     // used for all downloaded files, so we can find and delete them again.
-    private final static String FILE_TYPE_PREFIX = "DH_";
+    private final static String FILE_TYPE_PREFIX = "PP_";
     /**
      * downloads the file from the given url to external storage.
      *
