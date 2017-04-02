@@ -5,8 +5,10 @@
 //  Created by Philipp Hecht on 10/03/17.
 //  Copyright (c) 2017 Philipp Hecht. All rights reserved.
 //
-#import <UIKit/UIKit.h>
 #import "RNReactNativeDocViewer.h"
+#import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
 #if __has_include("RCTLog.h")
 #import "RCTLog.h"
 #else
@@ -135,6 +137,40 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
         });
         
     });
+}
+
+//Movie Files mp4
+RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)callback)
+{
+  //NSDictionary* dict = [array objectAtIndex:0];
+  NSString *_uri = file;
+
+  NSString* mediaFilePath = [[NSBundle mainBundle] pathForResource:_uri ofType:nil];
+  NSAssert(mediaFilePath, @"Media not found: %@", _uri);
+
+  NSURL *fileURL = [NSURL fileURLWithPath:mediaFilePath];
+
+  dispatch_async(dispatch_get_main_queue(), ^{
+
+    AVPlayerViewController *movieViewController = [[AVPlayerViewController alloc] init];
+
+    movieViewController.player = [AVPlayer playerWithURL:fileURL];
+
+    [movieViewController.player play];
+
+    movieViewController = movieViewController;
+
+    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    UIView *view = [ctrl view];
+
+    view.window.windowLevel = UIWindowLevelStatusBar;
+      if (callback) {
+          callback(@[[NSNull null], @"true"]);
+      }
+
+    [ctrl presentViewController:movieViewController animated:TRUE completion: nil];
+
+  });
 }
 
 - (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller

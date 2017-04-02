@@ -1,8 +1,8 @@
 
 {
   "name": "react-native-doc-viewer",
-  "version": "2.2.5",
-  "description": "React Native Native Module Bridge Quicklock Document Viewer for IOS -Supports pdf, png, jpg, xls, ppt, doc, docx, pptx, xlx",
+  "version": "2.2.6",
+  "description": "React Native Native Module Bridge Quicklock Document Viewer for IOS -Supports pdf, png, jpg, xls, ppt, doc, docx, pptx, xlx + Video Player mp4 supported ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,6 +14,8 @@
     "ios",
     "android",
     "pdf",
+    "video",
+    "Video Player",
     "Doc Viewer"
   ],
   "author": "Philipp Hecht",
@@ -26,6 +28,5 @@
     "url": "git+https://github.com/philipphecht/react-native-doc-viewer.git"
   },
     "readme": "https://github.com/philipphecht/react-native-doc-viewer/blob/master/README.md",
-  "homepage": "https://github.com/philipphecht/react-native-doc-viewer/blob/master/README.md",
-  "main": "index.js"
+  "homepage": "https://github.com/philipphecht/react-native-doc-viewer/blob/master/README.md"
 }

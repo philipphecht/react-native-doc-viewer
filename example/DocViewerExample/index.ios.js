@@ -39,6 +39,17 @@ export default class DocViewerExample extends Component {
         }
       })
   }
+
+  //open mp4 Video
+  handlePressVideo(video) {
+        OpenFile.playMovie(video, (error, url) => {
+                if (error) {
+                    console.error(error);
+                } else {
+                    console.log(url)
+                }
+            })
+    }
   render() {
     return (
       <View style={styles.container}>
@@ -60,6 +71,11 @@ export default class DocViewerExample extends Component {
         <Button
           onPress={this.handlePressb64.bind(this)}
           title="Press Me Open Doc Base64"
+          accessibilityLabel="See a Document"
+        />
+        <Button
+          onPress={()=>this.handlePressVideo("Path/to/Video.mp4")}
+          title="Press Me Open Video"
           accessibilityLabel="See a Document"
         />
       </View>

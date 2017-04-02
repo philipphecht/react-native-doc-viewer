@@ -10,9 +10,10 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
+2.2.5   - Video Player mp4 IOS
 
-2.2.4
-        - Base64 String Support for IOS
+2.2.4   - Base64 String Support for IOS
+
 2.2.3
         - Android Doc Viewer Implementation. At the moment you have to install a Application that supports the Format
 
