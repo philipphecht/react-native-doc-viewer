@@ -43,24 +43,38 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSString* urlStr = dict[@"url"];
         NSString* filename = dict[@"fileName"];
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        RCTLogInfo(@"Url %@", url);
         NSData* dat = [NSData dataWithContentsOfURL:url];
-        if (dat == nil) {
-            if (callback) {
-                callback(@[[NSNull null], @"DATA nil"]);
+        RCTLogInfo(@"Url %@", url);
+        //From Internet
+        if ([urlStr containsString:@"http"]) {
+            if (dat == nil) {
+                if (callback) {
+                    callback(@[[NSNull null], @"DATA nil"]);
+                }
+                return;
             }
-            return;
+            NSString* fileName = [url lastPathComponent];
+            NSString* fileExt = [fileName pathExtension];
+            RCTLogInfo(@"Pretending to create an event at %@", fileExt);
+            if([fileExt length] == 0){
+                fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
+            }
+            NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
+            NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
+            [dat writeToURL:tmpFileUrl atomically:YES];
+            weakSelf.fileUrl = tmpFileUrl;
+        } else {
+            //Local File
+            NSString* fileName = [url lastPathComponent];
+            NSString* fileExt = [fileName pathExtension];
+            RCTLogInfo(@"Pretending to create an event at %@", fileExt);
+            if([fileExt length] == 0){
+                fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
+            }
+            NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:urlStr];
+            weakSelf.fileUrl = tmpFileUrl;
         }
-        NSString* fileName = [url lastPathComponent];
-        NSString* fileExt = [fileName pathExtension];
-        RCTLogInfo(@"Pretending to create an event at %@", fileExt);
-        if([fileExt length] == 0){
-            fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
-        }
-        NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
-        NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
-        [dat writeToURL:tmpFileUrl atomically:YES];
-        weakSelf.fileUrl = tmpFileUrl;
+    
         
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];

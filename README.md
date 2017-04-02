@@ -10,6 +10,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
+
 2.2.4
         - Base64 String Support for IOS
 2.2.3
