@@ -10,9 +10,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  Platform
 } from 'react-native';
 import OpenFile from 'react-native-doc-viewer';
+var RNFS = require('react-native-fs');
+var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirectoryPath;
 export default class DocViewerExample extends Component {
   handlePress = () => {
    OpenFile.openDoc([{

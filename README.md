@@ -77,6 +77,8 @@ Changelog:
 ## Usage
 ```javascript
 import OpenFile from 'react-native-doc-viewer';
+var RNFS = require('react-native-fs');
+var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirectoryPath;
 
   //Handle Function Internet
   handlePress = () => {
@@ -95,7 +97,7 @@ import OpenFile from 'react-native-doc-viewer';
   //Handle Function Local File
   handlePress = () => {
     OpenFile.openDoc([{
-     url:"{Path/to/the/document}",
+     url:SavePath+"filename.pdf",
      fileName:"sample"
    }], (error, url) => {
       if (error) {
