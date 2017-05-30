@@ -10,8 +10,11 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
-1.4.4
-        - Android Doc Viewer Implementation. At the moment you have to install a Application that supports the Format
+2.3.2   - Video Player mp4 IOS
+
+2.2.4   - Base64 String Support for IOS
+
+2.2.3 - Android Doc Viewer Implementation. At the moment you have to install a Application that supports the Format
 
 ```
 
@@ -73,6 +76,8 @@ Changelog:
 ## Usage
 ```javascript
 import OpenFile from 'react-native-doc-viewer';
+var RNFS = require('react-native-fs');
+var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirectoryPath;
 
   //Handle Function Internet
   handlePress = () => {
@@ -91,7 +96,7 @@ import OpenFile from 'react-native-doc-viewer';
   //Handle Function Local File
   handlePress = () => {
     OpenFile.openDoc([{
-     url:"{Path/to/the/document}",
+     url:SavePath+"filename.pdf",
      fileName:"sample"
    }], (error, url) => {
       if (error) {
@@ -101,12 +106,33 @@ import OpenFile from 'react-native-doc-viewer';
       }
     })
   }
+
+  //Base64String
+  //put only the base64 String without data:application/octet-stream;base64
+  handlePressb64 = () => {
+    OpenFile.openDocb64([{
+      base64:"{BASE64String}"
+      fileName:"sample.png",
+      fileType:"png"
+    }], (error, url) => {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log(url)
+        }
+      })
+  }
   
   
    <Button
           onPress={this.handlePress.bind(this)}
-          title="Press Me"
-          accessibilityLabel="Open the Doc"
+          title="Press Me Open Doc Url"
+          accessibilityLabel="See a Document"
+        />
+        <Button
+          onPress={this.handlePressb64.bind(this)}
+          title="Press Me Open Doc Base64"
+          accessibilityLabel="See a Document"
         />
 ```
 
@@ -124,7 +150,7 @@ import OpenFile from 'react-native-doc-viewer';
 
 ### ROADMAP
  * Android Quicklook support without an external application
- * Base64StringtoFile
+ * Base64StringtoFile Android
  * Windows Support 
  
  Copyright (c) 2017-present, Philipp Hecht

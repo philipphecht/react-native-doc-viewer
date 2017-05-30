@@ -9,6 +9,7 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.views.webview.ReactWebViewManager;
 
 /* bridge react native
 int size();
@@ -39,6 +40,8 @@ import android.os.AsyncTask;
 import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+import android.util.Log;
+import android.webkit.WebView;
 
 public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   public static final int ERROR_NO_HANDLER_FOR_DATA_TYPE = 53;
@@ -70,12 +73,12 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             callback.invoke(false);
         }
        } catch (Exception e) {
-            callback.invoke(false);
+            callback.invoke(e.getMessage());
        }
   }
     
     // used for all downloaded files, so we can find and delete them again.
-    private final static String FILE_TYPE_PREFIX = "DH_";
+    private final static String FILE_TYPE_PREFIX = "PP_";
     /**
      * downloads the file from the given url to external storage.
      *
@@ -162,7 +165,6 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
     }
     
   private class FileDownloaderAsyncTask extends AsyncTask<Void, Void, File> {
-
         private final Callback callback;
         private final String url;
         private final String fileName;
@@ -189,12 +191,10 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         protected void onPostExecute(File result) {
             if (result == null) {
                 // Has already been handled
-                
                 return;
             }
 
             Context context = getReactApplicationContext().getBaseContext();
-
             // mime type of file data
             String mimeType = getMimeType(url);
             if (mimeType == null) {
@@ -209,10 +209,10 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 // Thread-safe.
                 callback.invoke(fileName);
             } catch (ActivityNotFoundException e) {
-				// happens when we start intent without something that can
-                // handle it
-                callback.invoke(false);
-                e.printStackTrace();
+                System.out.println("ERROR");
+                System.out.println(e.getMessage());
+                callback.invoke(e.getMessage());
+                //e.printStackTrace();
             }
 
         }
