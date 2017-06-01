@@ -48,7 +48,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
         RCTLogInfo(@"Url %@", url);
-        //From Internet
+        //From the www
         if ([urlStr containsString:@"http"]) {
             if (dat == nil) {
                 if (callback) {
@@ -59,14 +59,14 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             NSString* fileName = [url lastPathComponent];
             NSString* fileExt = [fileName pathExtension];
             RCTLogInfo(@"Pretending to create an event at %@", fileExt);
-            if([fileExt length] == 0 && [filetype length] == 0){
+            if([fileExt length] == 0){
                 fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
             }
 
             //A Binary String without FileType (.pdf,.doc)
-            if([[filetype length] > 0 && [fileExt length] == 0){
+            /*if([[filetype length] > 0 && [fileExt length] == 0){
                 fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", filetype];
-            }
+            }*/
 
             NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
