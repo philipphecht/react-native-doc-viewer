@@ -20,7 +20,8 @@ export default class DocViewerExample extends Component {
   handlePress = () => {
    OpenFile.openDoc([{
      url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg",
-     fileName:"sample"
+     fileName:"sample",
+     fileType:"jpg"
    }], (error, url) => {
       if (error) {
         console.error(error);

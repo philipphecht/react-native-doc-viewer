@@ -67,6 +67,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             // parameter parsing
             final String url = arg_object.getString("url");
             final String fileName =arg_object.getString("fileName");
+            final String fileType =arg_object.getString("fileType");
             // Begin the Download Task
             new FileDownloaderAsyncTask(callback, url, fileName).execute();
         }else{

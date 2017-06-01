@@ -44,6 +44,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
         NSString* filename = dict[@"fileName"];
+        NSString* filetype = dict[@"fileType"];
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
         RCTLogInfo(@"Url %@", url);
@@ -51,16 +52,22 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         if ([urlStr containsString:@"http"]) {
             if (dat == nil) {
                 if (callback) {
-                    callback(@[[NSNull null], @"DATA nil"]);
+                    callback(@[[NSNull null], @"Doc Url not found"]);
                 }
                 return;
             }
             NSString* fileName = [url lastPathComponent];
             NSString* fileExt = [fileName pathExtension];
             RCTLogInfo(@"Pretending to create an event at %@", fileExt);
-            if([fileExt length] == 0){
+            if([fileExt length] == 0 && [filetype length] == 0){
                 fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
             }
+
+            //A Binary String without FileType (.pdf,.doc)
+            if([[filetype length] > 0 && [fileExt length] == 0){
+                fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", filetype];
+            }
+
             NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
             [dat writeToURL:tmpFileUrl atomically:YES];
@@ -69,6 +76,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             //Local File
             NSString* fileName = [url lastPathComponent];
             NSString* fileExt = [fileName pathExtension];
+            //NSString* fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", filetype];
             RCTLogInfo(@"Pretending to create an event at %@", fileExt);
             if([fileExt length] == 0){
                 fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
