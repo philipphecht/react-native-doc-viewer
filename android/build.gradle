@@ -32,6 +32,5 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    compile 'org.docx4j:3.3.3'
 }
   
