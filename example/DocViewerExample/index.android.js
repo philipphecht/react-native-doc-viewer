@@ -25,7 +25,6 @@ export default class DocViewerExample extends Component {
    OpenFile.openDoc([{
      url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg",
      fileName:"sample",
-     fileType:""
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -34,19 +33,7 @@ export default class DocViewerExample extends Component {
       }
     })
   }
-  handlePress = () => {
-   OpenFile.openDoc([{
-     url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg",
-     fileName:"sample",
-     fileType:"jpg"
-   }], (error, url) => {
-      if (error) {
-        console.error(error);
-      } else {
-        console.log(url)
-      }
-    })
-  }
+  
   render() {
     return (
       <View style={styles.container}>

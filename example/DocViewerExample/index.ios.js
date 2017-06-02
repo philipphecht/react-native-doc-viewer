@@ -24,8 +24,26 @@ export default class DocViewerExample extends Component {
   handlePress = () => {
    OpenFile.openDoc([{
      url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg",
+     fileName:"sample"
+   }], (error, url) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(url)
+      }
+    })
+  }
+
+  /*
+  * Binary in URL
+  * Binary String in Url
+  * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
+  */
+  handlePressBinaryinUrl = () => {
+   OpenFile.openDocBinaryinUrl([{
+     url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/{binaryString}",
      fileName:"sample",
-     fileType:""
+     fileType:"jpg"
    }], (error, url) => {
       if (error) {
         console.error(error);

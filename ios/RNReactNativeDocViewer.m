@@ -44,7 +44,6 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
         NSString* filename = dict[@"fileName"];
-        NSString* filetype = dict[@"fileType"];
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
         RCTLogInfo(@"Url %@", url);
@@ -62,11 +61,6 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             if([fileExt length] == 0){
                 fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
             }
-
-            //A Binary String without FileType (.pdf,.doc)
-            /*if([[filetype length] > 0 && [fileExt length] == 0){
-                fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", filetype];
-            }*/
 
             NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
@@ -99,6 +93,58 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         
     });
 }
+
+
+/**
+ * BinaryinUrl
+ * open Url with a Binary String
+ * Parameters: NSArray
+ */
+RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
+{
+    __weak RNReactNativeDocViewer* weakSelf = self;
+    dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(asyncQueue, ^{
+        NSDictionary* dict = [array objectAtIndex:0];
+        NSString* url = dict[@"url"];
+        NSString* filename = dict[@"fileName"];
+        NSString* filetype = dict[@"fileType"];
+        NSArray* splitUrl = [url componentsSeparatedByString: @"/"];
+        NSString* binaryString = [splitUrl lastObject];
+        callback(@[[NSNull null], binaryString]);
+        //Parse the Binary from URL
+        NSData* dat = [binaryString dataUsingEncoding:NSUTF8StringEncoding];
+        if (dat == nil) {
+            if (callback) {
+                callback(@[[NSNull null], @"DATA nil"]);
+            }
+            return;
+        }
+        NSString* fileName = [NSString stringWithFormat:@"%@%@%@", filename, @".", filetype];
+        NSString* fileExt = [fileName pathExtension];
+        if([fileExt length] == 0){
+            fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
+        }
+        NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
+        NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
+
+        [dat writeToURL:tmpFileUrl atomically:YES];
+        weakSelf.fileUrl = tmpFileUrl;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            QLPreviewController* cntr = [[QLPreviewController alloc] init];
+            cntr.delegate = weakSelf;
+            cntr.dataSource = weakSelf;
+            if (callback) {
+                callback(@[[NSNull null], @"Data"]);
+            }
+            UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            [root presentViewController:cntr animated:YES completion:nil];
+        });
+        
+    });
+}
+
 /**
  * openDocb64
  * open Base64 String
@@ -146,6 +192,7 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
         
     });
 }
+
 
 //Movie Files mp4
 RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)callback)

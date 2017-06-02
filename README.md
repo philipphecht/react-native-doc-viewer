@@ -10,7 +10,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
-2.3.5  -  FileExt Parameter support with Binary in url in IOS
+2.3.8  -  Method openDocBinaryinUrl for Binary in Url
 
 2.3.2   - Video Player mp4 IOS
 
@@ -89,7 +89,25 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
    OpenFile.openDoc([{
      url:"http://www.snee.com/xml/xslt/sample.doc",
      fileName:"sample"
-     fileType:"",
+   }], (error, url) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(url)
+      }
+    })
+  }
+
+  /*
+  * Binary in URL
+  * Binary String in Url
+  * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
+  */
+  handlePressBinaryinUrl = () => {
+   OpenFile.openDocBinaryinUrl([{
+     url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/{binaryString}",
+     fileName:"sample",
+     fileType:"jpg"
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -103,11 +121,10 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   * Handle local File Method
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
   */
-  handlePress = () => {
+  handlePressLocalFile = () => {
     OpenFile.openDoc([{
      url:SavePath+"filename.pdf",
      fileName:"sample",
-     fileType:""
    }], (error, url) => {
       if (error) {
         console.error(error);
