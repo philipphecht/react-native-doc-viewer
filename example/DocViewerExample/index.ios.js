@@ -41,9 +41,9 @@ export default class DocViewerExample extends Component {
   */
   handlePressBinaryinUrl = () => {
    OpenFile.openDocBinaryinUrl([{
-     url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/{binaryString}",
+     url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/ée¢+p¢¹,",
      fileName:"sample",
-     fileType:"jpg"
+     fileType:"txt"
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -102,7 +102,7 @@ export default class DocViewerExample extends Component {
           accessibilityLabel="See a Document"
         />
         <Button
-          onPress={this.handlePressb64.bind(this)}
+          onPress={this.handlePressBinaryinUrl.bind(this)}
           title="Press Me Open Doc Base64"
           accessibilityLabel="See a Document"
         />
