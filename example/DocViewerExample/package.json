@@ -9,7 +9,7 @@
 	"dependencies": {
 		"react": "16.0.0-alpha.6",
 		"react-native": "0.44.0",
-        "react-native-doc-viewer": "2.4.3",
+        "react-native-doc-viewer": "2.4.4",
 		"react-native-fs":"^2.3.2"
 	},
 	"devDependencies": {

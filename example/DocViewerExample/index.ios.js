@@ -42,9 +42,9 @@ export default class DocViewerExample extends Component {
   */
   handlePressBinaryinUrl = () => {
    OpenFile.openDocBinaryinUrl([{
-     url:"https://storage.googleapis.com/need-sure/testxml",
+     url:"https://storage.googleapis.com/need-sure/example",
      fileName:"sample",
-     fileType:"xls"
+     fileType:"xml"
    }], (error, url) => {
       if (error) {
         console.error(error);
