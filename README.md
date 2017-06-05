@@ -10,7 +10,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
-2.3.8  -  Method openDocBinaryinUrl for Binary in Url
+2.4.1  -  Update to react-native 0.44.0
 
 2.3.2   - Video Player mp4 IOS
 
@@ -154,14 +154,24 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   }
   
   
-   <Button
+  <Button
           onPress={this.handlePress.bind(this)}
           title="Press Me Open Doc Url"
           accessibilityLabel="See a Document"
         />
         <Button
+          onPress={this.handlePressBinaryinUrl.bind(this)}
+          title="Press Me Open BinaryinUrl"
+          accessibilityLabel="See a Document"
+        />
+        <Button
           onPress={this.handlePressb64.bind(this)}
-          title="Press Me Open Doc Base64"
+          title="Press Me Open Base64 String"
+          accessibilityLabel="See a Document"
+        />
+        <Button
+          onPress={()=>this.handlePressVideo("Path/to/Video.mp4")}
+          title="Press Me Open Video"
           accessibilityLabel="See a Document"
         />
 ```

@@ -10,8 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  Platform
+  Platform,
+  Button
 } from 'react-native';
 import OpenFile from 'react-native-doc-viewer';
 var RNFS = require('react-native-fs');
@@ -33,7 +33,6 @@ export default class DocViewerExample extends Component {
       }
     })
   }
-  
   render() {
     return (
       <View style={styles.container}>
@@ -47,11 +46,6 @@ export default class DocViewerExample extends Component {
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
         </Text>
-        <Button
-          onPress={this.handlePress.bind(this)}
-          title="Press Me"
-          accessibilityLabel="See a Document"
-        />
       </View>
     );
   }

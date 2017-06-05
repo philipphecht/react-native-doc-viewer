@@ -10,12 +10,13 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  Platform
+  Platform,
+  Button
 } from 'react-native';
 import OpenFile from 'react-native-doc-viewer';
 var RNFS = require('react-native-fs');
 var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirectoryPath;
+
 export default class DocViewerExample extends Component {
   /*
   * Handle WWW File Method
@@ -41,9 +42,9 @@ export default class DocViewerExample extends Component {
   */
   handlePressBinaryinUrl = () => {
    OpenFile.openDocBinaryinUrl([{
-     url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/ée¢+p¢¹,",
+     url:"https://storage.googleapis.com/need-sure/testxml",
      fileName:"sample",
-     fileType:"txt"
+     fileType:"xls"
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -87,23 +88,21 @@ export default class DocViewerExample extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Doc Viewer React Native
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-         <Button
+        <Button
           onPress={this.handlePress.bind(this)}
           title="Press Me Open Doc Url"
           accessibilityLabel="See a Document"
         />
         <Button
           onPress={this.handlePressBinaryinUrl.bind(this)}
-          title="Press Me Open Doc Base64"
+          title="Press Me Open BinaryinUrl"
+          accessibilityLabel="See a Document"
+        />
+        <Button
+          onPress={this.handlePressb64.bind(this)}
+          title="Press Me Open Base64 String"
           accessibilityLabel="See a Document"
         />
         <Button

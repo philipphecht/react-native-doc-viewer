@@ -109,14 +109,13 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
         NSString* url = dict[@"url"];
         NSString* filename = dict[@"fileName"];
         NSString* filetype = dict[@"fileType"];
-        NSArray* splitUrl = [url componentsSeparatedByString: @"/"];
-        NSString* binaryString = [splitUrl lastObject];
+        //NSArray* splitUrl = [url componentsSeparatedByString: @"/"];
+        //NSString* binaryString = [splitUrl lastObject];
         //Parse the Binary from URL
-        NSData* byteArrayString = [binaryString dataUsingEncoding:NSUTF8StringEncoding];
-        NSString* base64Encoded = [byteArrayString base64EncodedStringWithOptions:0];
-        NSURL *urlbinary = [NSURL URLWithString:[NSString stringWithFormat:@"data:application/octet-stream;base64,%@",base64Encoded]];
+        //NSData* byteArrayString = [binaryString dataUsingEncoding:NSUTF8StringEncoding];
+         //NSLog(@"%@", byteArrayString);
+        NSURL* urlbinary = [NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:urlbinary];
-
         if (dat == nil) {
             if (callback) {
                 callback(@[[NSNull null], @"DATA nil"]);
