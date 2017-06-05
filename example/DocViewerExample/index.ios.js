@@ -89,7 +89,7 @@ export default class DocViewerExample extends Component {
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Doc Viewer React Native
-        </Text>
+        </Text>s
         <Button
           onPress={this.handlePress.bind(this)}
           title="Press Me Open Doc Url"
