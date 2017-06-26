@@ -76,6 +76,26 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             callback.invoke(e.getMessage());
        }
   }
+
+
+  @ReactMethod
+  public void openDocb64(ReadableArray args, Callback callback) {
+      final ReadableMap arg_object = args.getMap(0);
+      try {
+        if (arg_object.getString("base64") != null && arg_object.getString("fileName") != null && arg_object.getString("fileType") != null) {
+            // parameter parsing
+            final String base64 = arg_object.getString("base64");
+            final String fileName =arg_object.getString("fileName");
+            final String fileType =arg_object.getString("fileType");
+            // Begin the Download Task
+            //new FileDownloaderAsyncTask(callback, url, fileName).execute();
+        }else{
+            callback.invoke(false);
+        }
+       } catch (Exception e) {
+            callback.invoke(e.getMessage());
+       }
+  }
     
     // used for all downloaded files, so we can find and delete them again.
     private final static String FILE_TYPE_PREFIX = "PP_";
@@ -138,7 +158,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             return null;
         }
     }
-/**
+     /**
      * Returns the MIME Type of the file by looking at file name extension in
      * the URL.
      *
