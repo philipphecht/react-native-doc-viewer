@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import android.support.v4.content.FileProvider;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -131,8 +132,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 extension = "pdf";
                 System.out.println("extension (default): " + extension);
             }
+
+            Context context = getReactApplicationContext().getBaseContext();
+            File outputDir = context.getCacheDir();
             File f = File.createTempFile(FILE_TYPE_PREFIX, "." + extension,
-                    null);
+                    outputDir);
             // make sure the receiving app can read this file
             f.setReadable(true, false);
             System.out.println(f.getPath());
@@ -146,6 +150,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             }
             reader.close();
             outStream.close();
+            if (f.exists()) {
+                System.out.println("File exists");
+            } else {
+                System.out.println("File doesn't exist");
+            }
             return f;
 
         } catch (FileNotFoundException e) {
@@ -221,9 +230,14 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 return;
             }
             try {
+                Uri contentUri = FileProvider.getUriForFile(context, "com.reactlibrary.provider", result);
+                System.out.println("ContentUri");
+                System.out.println(contentUri);
+
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(result), mimeType);
+                intent.setDataAndType(contentUri, mimeType);  
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 context.startActivity(intent);
           
                 // Thread-safe.
