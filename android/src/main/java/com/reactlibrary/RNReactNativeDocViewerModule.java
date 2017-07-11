@@ -236,9 +236,14 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(contentUri, mimeType);  
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                context.startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                Intent chooserIntent = Intent.createChooser(intent, "Open With");
+                chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                chooserIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                context.startActivity(chooserIntent);
           
                 // Thread-safe.
                 callback.invoke(fileName);
