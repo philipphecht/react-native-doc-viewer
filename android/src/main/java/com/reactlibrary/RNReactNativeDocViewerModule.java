@@ -59,7 +59,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
   public String getName() {
     return "RNReactNativeDocViewer";
   }
-    
+
   @ReactMethod
   public void openDoc(ReadableArray args, Callback callback) {
       final ReadableMap arg_object = args.getMap(0);
@@ -97,7 +97,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             callback.invoke(e.getMessage());
        }
   }
-    
+
     // used for all downloaded files, so we can find and delete them again.
     private final static String FILE_TYPE_PREFIX = "PP_";
     /**
@@ -192,12 +192,12 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
         return mimeType;
     }
-    
+
   private class FileDownloaderAsyncTask extends AsyncTask<Void, Void, File> {
         private final Callback callback;
         private final String url;
         private final String fileName;
-       
+
         public FileDownloaderAsyncTask(Callback callback,
                 String url, String fileName) {
             super();
@@ -223,10 +223,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 return;
             }
 
-            Context context = getReactApplicationContext().getBaseContext();
+            Context context = getCurrentActivity();
+
             // mime type of file data
             String mimeType = getMimeType(url);
-            if (mimeType == null) {
+            if (mimeType == null || context == null) {
                 return;
             }
             try {
@@ -235,11 +236,14 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 System.out.println(contentUri);
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(contentUri, mimeType);  
+                intent.setDataAndType(contentUri, mimeType);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                context.startActivity(intent);
-          
+
+                if (intent.resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(intent);
+                }
+
                 // Thread-safe.
                 callback.invoke(fileName);
             } catch (ActivityNotFoundException e) {
