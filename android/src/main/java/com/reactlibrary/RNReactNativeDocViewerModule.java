@@ -243,7 +243,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 if (intent.resolveActivity(context.getPackageManager()) != null) {
                     context.startActivity(intent);
                     // Thread-safe.
-                    callback.invoke(fileName);
+                    callback.invoke(null, fileName);
                 } else {
                     activityNotFoundMessage("Activity not found to handle: " + contentUri.toString() + " (" + mimeType + ")");
                 }
