@@ -88,6 +88,9 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
                 callback(@[[NSNull null], array]);
             }
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            while (root.presentedViewController) {
+                root = root.presentedViewController;
+            }
             [root presentViewController:cntr animated:YES completion:nil];
         });
         
@@ -141,6 +144,9 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
                 callback(@[[NSNull null], @"Data"]);
             }
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            while (root.presentedViewController) {
+                root = root.presentedViewController;
+            }
             [root presentViewController:cntr animated:YES completion:nil];
         });
         
@@ -189,6 +195,9 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
                 callback(@[[NSNull null], @"Data"]);
             }
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            while (root.presentedViewController) {
+                root = root.presentedViewController;
+            }
             [root presentViewController:cntr animated:YES completion:nil];
         });
         
@@ -218,6 +227,10 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
     movieViewController = movieViewController;
 
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    while (ctrl.presentedViewController) {
+        ctrl = ctrl.presentedViewController;
+    }
+    
     UIView *view = [ctrl view];
 
     view.window.windowLevel = UIWindowLevelStatusBar;
