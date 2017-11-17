@@ -37,16 +37,31 @@ RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
  */
 RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
-    
+
     __weak RNReactNativeDocViewer* weakSelf = self;
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
-        NSString* filename = dict[@"fileName"];
+        NSString* fileName = dict[@"fileName"];
+        NSString* fileType = dict[@"fileType"];
+        NSString* fileExt = [fileName pathExtension];
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
         RCTLogInfo(@"Url %@", url);
+        RCTLogInfo(@"FileName %@", fileName);
+        RCTLogInfo(@"FileType %@", fileType);
+        RCTLogInfo(@"FileExt %@", fileExt);
+        if ([fileType length] > 0) {
+            fileName = [NSString stringWithFormat:@"%@%@", fileName, fileType];
+        }
+        if ([fileType length] == 0 && [fileExt length] == 0) {
+            fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
+        }
+
+        if ([fileType length] == 0 && [fileExt length] > 0) {
+            fileName = [NSString stringWithFormat:@"%@%@", fileName, @".", fileExt];
+        }
         //From the www
         if ([urlStr containsString:@"http"]) {
             if (dat == nil) {
@@ -55,31 +70,17 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
                 }
                 return;
             }
-            NSString* fileName = [url lastPathComponent];
-            NSString* fileExt = [fileName pathExtension];
-            RCTLogInfo(@"Pretending to create an event at %@", fileExt);
-            if([fileExt length] == 0){
-                fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
-            }
 
             NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
             [dat writeToURL:tmpFileUrl atomically:YES];
             weakSelf.fileUrl = tmpFileUrl;
         } else {
-            //Local File
-            NSString* fileName = [url lastPathComponent];
-            NSString* fileExt = [fileName pathExtension];
-            //NSString* fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", filetype];
-            RCTLogInfo(@"Pretending to create an event at %@", fileExt);
-            if([fileExt length] == 0){
-                fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
-            }
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:urlStr];
             weakSelf.fileUrl = tmpFileUrl;
         }
-    
-        
+
+
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
             cntr.delegate = weakSelf;
@@ -90,7 +91,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
             [root presentViewController:cntr animated:YES completion:nil];
         });
-        
+
     });
 }
 
@@ -132,7 +133,7 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
 
         [dat writeToURL:tmpFileUrl atomically:YES];
         weakSelf.fileUrl = tmpFileUrl;
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
             cntr.delegate = weakSelf;
@@ -143,7 +144,7 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
             [root presentViewController:cntr animated:YES completion:nil];
         });
-        
+
     });
 }
 
@@ -154,7 +155,7 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
  */
 RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
-    
+
     __weak RNReactNativeDocViewer* weakSelf = self;
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
@@ -180,7 +181,7 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
 
         [dat writeToURL:tmpFileUrl atomically:YES];
         weakSelf.fileUrl = tmpFileUrl;
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
             cntr.delegate = weakSelf;
@@ -191,7 +192,7 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
             [root presentViewController:cntr animated:YES completion:nil];
         });
-        
+
     });
 }
 
@@ -250,4 +251,3 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
 
 
 @end
-  
