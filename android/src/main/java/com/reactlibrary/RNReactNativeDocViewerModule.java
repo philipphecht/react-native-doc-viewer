@@ -68,8 +68,9 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             // parameter parsing
             final String url = arg_object.getString("url");
             final String fileName =arg_object.getString("fileName");
+            final Boolean cache =arg_object.getBoolean("cache");
             // Begin the Download Task
-            new FileDownloaderAsyncTask(callback, url, fileName).execute();
+            new FileDownloaderAsyncTask(callback, url, cache, fileName).execute();
         }else{
             callback.invoke(false);
         }
@@ -106,9 +107,28 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
      * @param url
      * @return
      */
-    private File downloadFile(String url, Callback callback) {
+    private File downloadFile(String url, String fileName, Boolean cache, Callback callback) {
 
         try {
+            Context context = getReactApplicationContext().getBaseContext();
+            File outputDir = context.getCacheDir();
+            String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+            if (extension.equals("")) {
+                extension = "pdf";
+                System.out.println("extension (default): " + extension);
+            }
+            // check has extension
+            if (fileName.indexOf("\.") == -1){
+                fileName = fileName + '.' + extension;
+            }
+            // if use cache, check exist
+            if (cache != null && cache) {
+                File existFile = new File(outputDir, fileName);
+                if (existFile.exists()){
+                    return existFile;
+                }
+            }
+
             // get an instance of a cookie manager since it has access to our
             // auth cookie
             CookieManager cookieManager = CookieManager.getInstance();
@@ -127,16 +147,10 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
             InputStream reader = conn.getInputStream();
 
-            String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-            if (extension.equals("")) {
-                extension = "pdf";
-                System.out.println("extension (default): " + extension);
-            }
-
-            Context context = getReactApplicationContext().getBaseContext();
-            File outputDir = context.getCacheDir();
-            File f = File.createTempFile(FILE_TYPE_PREFIX, "." + extension,
+            // use cache
+            File f = cache != null && cache ? new File(outputDir, fileName) : File.createTempFile(FILE_TYPE_PREFIX, "." + extension,
                     outputDir);
+           
             // make sure the receiving app can read this file
             f.setReadable(true, false);
             System.out.println(f.getPath());
@@ -199,7 +213,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         private final String fileName;
 
         public FileDownloaderAsyncTask(Callback callback,
-                String url, String fileName) {
+                String url, Boolean cache, String fileName) {
             super();
             this.callback = callback;
             this.url = url;
@@ -209,7 +223,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         @Override
         protected File doInBackground(Void... arg0) {
             if (!url.startsWith("file://")) {
-                return downloadFile(url, callback);
+                return downloadFile(url, fileName, cache, callback);
             } else {
                 File file = new File(url.replace("file://", ""));
                 return file;
