@@ -55,7 +55,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         if ([fileType length] > 0) {
             fileName = [NSString stringWithFormat:@"%@%@", fileName, fileType];
         }
-        if ([fileExt length] == 0) {
+        if ([fileType length] == 0 && [fileExt length] == 0) {
             fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
         }
 
