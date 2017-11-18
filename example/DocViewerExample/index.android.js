@@ -33,6 +33,21 @@ export default class DocViewerExample extends Component {
       }
     })
   }
+  
+  /*
+  *Handle a local file Android
+  *
+  */
+  handlePress = () => {
+    OpenFile.openDoc([{
+      url: "file://" + filepath,
+      fileName: "viewer",
+     }], (error, url) => {
+        if (error) {
+          console.error(error);
+        }
+    })
+  }
 
   /*
   * Base64String
