@@ -4,6 +4,15 @@
 
 A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc, ppt, xlsx, docx, pptx etc.)
 
+#### 2017 Roadmap
+- Update React Native Library 0.50
+#### 2018 Roadmap
+- Android file without external Application
+- Loading Spinner for big Files
+- base64 Support for Android
+
+#### IMPORTANT INFORMATION: THIS IS A OPEN SOURCE PROJECT, SOMETIMES I HAVE NO TIME TO DEVELOP THIS PROJECT. THANK YOU FOR YOUR PULL REQUEST AND YOUR SUPPORT. I will continue to develop it as it is possible in time.
+
 ![nodei.co](https://nodei.co/npm/react-native-doc-viewer.png?downloads=true&downloadRank=true&stars=true)
 
 
