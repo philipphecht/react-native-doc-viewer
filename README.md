@@ -19,6 +19,8 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
+2.5.0  -  Update Project for React Native 0.50.3
+
 2.4.8  -  Pull Requests Thank you guys 
 
 2.4.6  -  Pull Requests Thank you guys 
