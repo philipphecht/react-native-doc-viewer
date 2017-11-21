@@ -51,7 +51,8 @@ export default class DocumentViewerExample extends Component {
       OpenFile.openDoc([{
         url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg", // Local "file://" + filepath
         fileName:"sample",
-        cache:false
+        cache:false,
+        fileType:"jpg"
       }], (error, url) => {
          if (error) {
            console.error(error);

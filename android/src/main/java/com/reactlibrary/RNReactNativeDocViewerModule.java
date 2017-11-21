@@ -68,9 +68,10 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             // parameter parsing
             final String url = arg_object.getString("url");
             final String fileName =arg_object.getString("fileName");
+            final String fileType =arg_object.getString("fileType");
             final Boolean cache =arg_object.getBoolean("cache");
             // Begin the Download Task
-            new FileDownloaderAsyncTask(callback, url, cache, fileName).execute();
+            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType).execute();
         }else{
             callback.invoke(false);
         }
@@ -112,7 +113,9 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         try {
             Context context = getReactApplicationContext().getBaseContext();
             File outputDir = context.getCacheDir();
-            String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+
+            String extension = MimeTypeMap.getFileExtensionFromUrl(Uri.encode(url));
+            System.out.println("Extensions DownloadFile " + extension);
             if (extension.equals("")) {
                 extension = "pdf";
                 System.out.println("extension (default): " + extension);
@@ -190,14 +193,11 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
      */
     private static String getMimeType(String url) {
         String mimeType = null;
-
-        String extension = MimeTypeMap.getFileExtensionFromUrl(Uri.encode(url));
+        System.out.println("Url: " + url);
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if (extension != null) {
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            mimeType = mime.getMimeTypeFromExtension(extension);
+            mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
         }
-
-        System.out.println("Mime Type: " + mimeType);
 
         if (mimeType == null) {
             mimeType = "application/pdf";
@@ -212,19 +212,22 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         private final String url;
         private final String fileName;
         private final Boolean cache; 
+        private final String fileType;
 
         public FileDownloaderAsyncTask(Callback callback,
-                String url, Boolean cache, String fileName) {
+                String url, Boolean cache, String fileName, String fileType) {
             super();
             this.callback = callback;
             this.url = url;
             this.fileName = fileName;
             this.cache = cache;
+            this.fileType = fileType;
         }
 
         @Override
         protected File doInBackground(Void... arg0) {
             if (!url.startsWith("file://")) {
+                System.out.println("Url to download" +url);
                 return downloadFile(url, fileName, cache, callback);
             } else {
                 File file = new File(url.replace("file://", ""));
@@ -240,10 +243,10 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             }
 
             Context context = getCurrentActivity();
-            String mimeType;
+           String mimeType;
             // mime type of file data
-            if (fileName != null) {
-              mimeType = getMimeType(fileName);
+            if (fileName != null && fileType != null) {
+               mimeType = getMimeType(fileName + "." +fileType);
             } else {
               mimeType = getMimeType(url);
             }
