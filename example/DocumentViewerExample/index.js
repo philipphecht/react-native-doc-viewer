@@ -30,23 +30,6 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
 export default class DocumentViewerExample extends Component {
 
   /*
-  *Handle a local file Android
-  * 
-  */
-  handlePress = () => {
-    if(Platform.OS === 'android'){
-      OpenFile.openDoc([{
-        url: "file://" + filepath,
-        fileName: "viewer",
-        cache:false
-      }], (error, url) => {
-          if (error) {
-            console.error(error);
-          }
-      })
-    }
-  }
-  /*
   * Handle WWW File Method
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
   */
@@ -66,7 +49,7 @@ export default class DocumentViewerExample extends Component {
     }else{
       //Android
       OpenFile.openDoc([{
-        url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg",
+        url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg", // Local "file://" + filepath
         fileName:"sample",
         cache:false
       }], (error, url) => {

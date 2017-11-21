@@ -5,7 +5,6 @@
 A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc, ppt, xlsx, docx, pptx etc.)
 
 #### 2017 Roadmap
-- Update React Native Library 0.50
 - Loading Spinner for big Files IOS
 #### 2018 Roadmap
 - Android file without external Application
@@ -20,23 +19,11 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
+2.5.2 -   OpenDocAndroid
+
 2.5.1 -   Cleanings
 
 2.5.0  -  Update Project for React Native 0.50.3
-
-2.4.8  -  Pull Requests Thank you guys 
-
-2.4.6  -  Pull Requests Thank you guys 
-
-2.4.6  -  Android FileProvider Fix for react-native 0.45. thanks to @iremlopsum
-
-2.4.1  -  Update to react-native 0.44.0
-
-2.3.2   - Video Player mp4 IOS
-
-2.2.4   - Base64 String Support for IOS
-
-2.2.3 - Android Doc Viewer Implementation. At the moment you have to install a Application that supports the Format
 
 ```
 
