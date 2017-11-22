@@ -52,7 +52,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSString *fileNameExported = [parts lastObject];
         //Custom Filename
         NSString *fileName = @"";
-        if(fileNameOptional){
+        if([fileNameOptional length] > 0){
             NSString* fileExt = [fileNameExported pathExtension];
             fileName = [NSString stringWithFormat:@"%@%c%@", fileNameOptional , '.', fileExt];
         }else{
