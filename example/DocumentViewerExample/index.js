@@ -37,7 +37,7 @@ export default class DocumentViewerExample extends Component {
     if(Platform.OS === 'ios'){
       OpenFile.openDoc([{
         url:"https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls",
-        fileName:"sample"
+        fileNameOptional:"sample"
       }], (error, url) => {
          if (error) {
            console.error(error);

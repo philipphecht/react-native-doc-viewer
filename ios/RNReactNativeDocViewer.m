@@ -43,28 +43,23 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
-        NSString* fileName = dict[@"fileName"];
-        NSString* fileType = dict[@"fileType"];
-        NSString* fileExt = [fileName pathExtension];
+        NSString* fileNameOptional = dict[@"fileNameOptional"];
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
         RCTLogInfo(@"Url %@", url);
-        RCTLogInfo(@"FileName %@", fileName);
-        RCTLogInfo(@"FileType %@", fileType);
-        RCTLogInfo(@"FileExt %@", fileExt);
-        
-        if ([fileType length] == 0 && [fileExt length] == 0) {
+        RCTLogInfo(@"FileNameOptional %@", fileNameOptional);
+        NSArray *parts = [urlStr componentsSeparatedByString:@"/"];
+        NSString *fileNameExported = [parts lastObject];
+        //Custom Filename
+        NSString *fileName = @"";
+        if(fileNameOptional){
+            NSString* fileExt = [fileNameExported pathExtension];
+            fileName = [NSString stringWithFormat:@"%@%c%@", fileNameOptional , '.', fileExt];
+        }else{
             //get File Name example a.pdf from Url http://xyz/a.pdf
-            NSArray *parts = [urlStr componentsSeparatedByString:@"/"];
-            NSString *fileNameExported = [parts lastObject];
             fileName = [NSString stringWithFormat:@"%@", fileNameExported];
         }
-        // if ([fileType length] > 0) {
-        //     fileName = [NSString stringWithFormat:@"%@%@", fileName, @".", fileType];
-        // }
-        // if ([fileType length] == 0 && [fileExt length] > 0) {
-        //     fileName = [NSString stringWithFormat:@"%@%@", fileName, @".", fileExt];
-        // }
+        
         //From the www
         if ([urlStr containsString:@"http"] || [urlStr containsString:@"https"]) {
             if (dat == nil) {
