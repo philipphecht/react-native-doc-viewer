@@ -71,7 +71,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String fileType =arg_object.getString("fileType");
             final Boolean cache =arg_object.getBoolean("cache");
             // Begin the Download Task
-            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, null).execute();
+            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, []).execute();
         }else{
             callback.invoke(false);
         }
