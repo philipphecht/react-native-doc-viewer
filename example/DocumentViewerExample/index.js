@@ -48,7 +48,7 @@ export default class DocumentViewerExample extends Component {
     }else{
       //Android
       OpenFile.openDoc([{
-        url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg", // Local "file://" + filepath
+        url:"https://www.huf-haus.com/fileadmin/Bilder/Header/ART_3/Header_HUF_Haus_ART_3___1_.jpg", // Local "file://" + filepath
         fileName:"sample",
         cache:false,
         fileType:"jpg"
