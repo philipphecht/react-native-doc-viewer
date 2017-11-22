@@ -96,6 +96,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
    OpenFile.openDoc([{
      url:"http://www.snee.com/xml/xslt/sample.doc",
      fileName:"sample"
+     fileExt:"doc"
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -113,8 +114,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   handlePressBinaryinUrl = () => {
    OpenFile.openDocBinaryinUrl([{
      url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/{binaryString}",
-     fileName:"sample",
-     fileExt:"jpg"
+     fileName:"sample"
    }], (error, url) => {
       if (error) {
         console.error(error);
