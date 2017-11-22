@@ -158,7 +158,7 @@ export default class DocumentViewerExample extends Component {
           accessibilityLabel="See a Document"
         />
         <Button
-          onPress={()=>this.handlePressVideo("Path/to/Video.mp4")}
+          onPress={()=>this.handlePressVideo("http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4")}
           title="Press Me Open Video"
           accessibilityLabel="See a Document"
         />

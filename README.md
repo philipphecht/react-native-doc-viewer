@@ -1,15 +1,15 @@
 
-# react-native-doc-viewer
+# react-native-doc-viewer [![npm version](https://img.shields.io/npm/v/react-native-doc-viewer.svg?style=flat)](https://www.npmjs.com/package/react-native-doc-viewer)
 
 
 A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc, ppt, xlsx, docx, pptx etc.)
 
 #### 2017 Roadmap
 - Loading Spinner for big Files IOS
+- base64 Support for Android
 #### 2018 Roadmap
 - Android file without external Application
 - Loading Spinner for big Files Android
-- base64 Support for Android
 
 #### IMPORTANT INFORMATION: THIS IS A OPEN SOURCE PROJECT, SOMETIMES I HAVE NO TIME TO DEVELOP THIS PROJECT. THANK YOU FOR YOUR PULL REQUEST AND YOUR SUPPORT. I will continue to develop it as it is possible in time.
 
@@ -97,7 +97,9 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   handlePress = () => {
    OpenFile.openDoc([{
      url:"http://www.snee.com/xml/xslt/sample.doc",
-     fileName:"sample"
+     fileName:"sample",
+     fileExt:"",
+     fileType:""
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -116,7 +118,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
    OpenFile.openDocBinaryinUrl([{
      url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/{binaryString}",
      fileName:"sample",
-     fileType:"jpg"
+     fileType:'jpg'
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -134,6 +136,8 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
     OpenFile.openDoc([{
      url:SavePath+"filename.pdf",
      fileName:"sample",
+     fileType:"",
+     fileExt:""
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -151,8 +155,8 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   handlePressb64 = () => {
     OpenFile.openDocb64([{
       base64:"{BASE64String}"
-      fileName:"sample.png",
-      fileType:""
+      fileName:"sample",
+      fileType:"png"
     }], (error, url) => {
         if (error) {
           console.error(error);
