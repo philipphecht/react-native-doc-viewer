@@ -58,8 +58,8 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         if ([fileType length] == 0 && [fileExt length] == 0) {
             //get File Name example a.pdf from Url http://xyz/a.pdf
             NSArray *parts = [urlStr componentsSeparatedByString:@"/"];
-            NSString *filename = [parts lastObject];
-            fileName = [NSString stringWithFormat:@"%@", fileName];
+            NSString *fileNameExported = [parts lastObject];
+            fileName = [NSString stringWithFormat:@"%@", fileNameExported];
         }
 
         if ([fileType length] == 0 && [fileExt length] > 0) {
