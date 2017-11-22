@@ -19,7 +19,6 @@ Changelog:
 
 ```
 2.5.5 -   Android Openbase64
-
 2.5.2 -   OpenDocAndroid
 
 2.5.1 -   Cleanings
