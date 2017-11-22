@@ -52,21 +52,21 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         RCTLogInfo(@"FileName %@", fileName);
         RCTLogInfo(@"FileType %@", fileType);
         RCTLogInfo(@"FileExt %@", fileExt);
-        if ([fileType length] > 0) {
-            fileName = [NSString stringWithFormat:@"%@%@", fileName, @".", fileType];
-        }
+        
         if ([fileType length] == 0 && [fileExt length] == 0) {
             //get File Name example a.pdf from Url http://xyz/a.pdf
             NSArray *parts = [urlStr componentsSeparatedByString:@"/"];
             NSString *fileNameExported = [parts lastObject];
             fileName = [NSString stringWithFormat:@"%@", fileNameExported];
         }
-
-        if ([fileType length] == 0 && [fileExt length] > 0) {
-            fileName = [NSString stringWithFormat:@"%@%@", fileName, @".", fileExt];
-        }
+        // if ([fileType length] > 0) {
+        //     fileName = [NSString stringWithFormat:@"%@%@", fileName, @".", fileType];
+        // }
+        // if ([fileType length] == 0 && [fileExt length] > 0) {
+        //     fileName = [NSString stringWithFormat:@"%@%@", fileName, @".", fileExt];
+        // }
         //From the www
-        if ([urlStr containsString:@"http"]) {
+        if ([urlStr containsString:@"http"] || [urlStr containsString:@"https"]) {
             if (dat == nil) {
                 if (callback) {
                     callback(@[[NSNull null], @"Doc Url not found"]);

@@ -36,9 +36,8 @@ export default class DocumentViewerExample extends Component {
   handlePress = () => {
     if(Platform.OS === 'ios'){
       OpenFile.openDoc([{
-        url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg",
-        fileName:"sample",
-        fileType:".jpg"
+        url:"https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls",
+        fileName:"sample"
       }], (error, url) => {
          if (error) {
            console.error(error);
