@@ -84,6 +84,15 @@ Changelog:
 
 ## Usage
 ```javascript
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  Button,
+  Alert
+} from 'react-native';
 import OpenFile from 'react-native-doc-viewer';
 var RNFS = require('react-native-fs');
 var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirectoryPath;
@@ -93,18 +102,33 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
   */
   handlePress = () => {
-   OpenFile.openDoc([{
-     url:"http://www.snee.com/xml/xslt/sample.doc",
-     fileName:"sample",
-     fileExt:"",
-     fileType:""
-   }], (error, url) => {
-      if (error) {
-        console.error(error);
-      } else {
-        console.log(url)
-      }
-    })
+   if(Platform.OS === 'ios'){
+      //IOS
+      OpenFile.openDoc([{
+        url:"https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls",
+        fileName:"sample"
+      }], (error, url) => {
+         if (error) {
+           console.error(error);
+         } else {
+           console.log(url)
+         }
+       })
+    }else{
+      //Android
+      OpenFile.openDoc([{
+        url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg", // Local "file://" + filepath
+        fileName:"sample",
+        cache:false,
+        fileType:"jpg"
+      }], (error, url) => {
+         if (error) {
+           console.error(error);
+         } else {
+           console.log(url)
+         }
+       })
+    }
   }
 
   /*
@@ -113,17 +137,23 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
   */
   handlePressBinaryinUrl = () => {
-   OpenFile.openDocBinaryinUrl([{
-     url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/{binaryString}",
-     fileName:"sample",
-     fileType:'jpg'
-   }], (error, url) => {
-      if (error) {
-        console.error(error);
-      } else {
-        console.log(url)
-      }
-    })
+    if(Platform.OS === 'ios'){
+      //IOS
+      OpenFile.openDocBinaryinUrl([{
+        url:"https://storage.googleapis.com/need-sure/example",
+        fileName:"sample",
+        fileType:"xml"
+      }], (error, url) => {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log(url)
+          }
+        })
+    }else{
+      //Android
+      Alert.alert("Coming soon for Android")
+    }
   }
   
   /*
@@ -131,18 +161,33 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
   */
   handlePressLocalFile = () => {
-    OpenFile.openDoc([{
-     url:SavePath+"filename.pdf",
-     fileName:"sample",
-     fileType:"",
-     fileExt:""
-   }], (error, url) => {
-      if (error) {
-        console.error(error);
-      } else {
-        console.log(url)
-      }
-    })
+    if(Platform.OS === 'ios'){
+        OpenFile.openDoc([{
+        url:SavePath+"filename.pdf",
+        fileName:"sample",
+        fileType:"",
+        fileExt:""
+      }], (error, url) => {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log(url)
+          }
+        })
+    }else{
+      //Android
+      OpenFile.openDoc([{
+        url:SavePath+"filename.pdf",
+        fileName:"sample",
+        cache:true,
+      }], (error, url) => {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log(url)
+          }
+        })
+    }
   }
 
   /*
@@ -151,17 +196,33 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
   */
   handlePressb64 = () => {
-    OpenFile.openDocb64([{
-      base64:"{BASE64String}"
-      fileName:"sample",
-      fileType:"png"
-    }], (error, url) => {
-        if (error) {
-          console.error(error);
-        } else {
-          console.log(url)
-        }
-      })
+    if(Platform.OS === 'ios'){
+      OpenFile.openDocb64([{
+        base64:"{BASE64String}"
+        fileName:"sample",
+        fileType:"png"
+      }], (error, url) => {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log(url)
+          }
+        })
+    }else{
+      //Android
+      OpenFile.openDocb64([{
+        base64:"{BASE64String}"
+        fileName:"sample",
+        fileType:"png",
+        cache:true
+      }], (error, url) => {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log(url)
+          }
+        })
+    }
   }
   
   
