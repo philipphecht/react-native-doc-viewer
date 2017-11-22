@@ -95,8 +95,9 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   handlePress = () => {
    OpenFile.openDoc([{
      url:"http://www.snee.com/xml/xslt/sample.doc",
-     fileName:"sample"
-     fileExt:"doc"
+     fileName:"sample",
+     fileExt:"",
+     fileType:""
    }], (error, url) => {
       if (error) {
         console.error(error);
