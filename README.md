@@ -18,7 +18,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
-2.5.5 -   Android Openbase64
+2.6.0 -   Android Openbase64
 2.5.2 -   OpenDocAndroid
 
 2.5.1 -   Cleanings
