@@ -6,10 +6,10 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 
 #### 2017 Roadmap
 - Loading Spinner for big Files IOS
+- base64 Support for Android
 #### 2018 Roadmap
 - Android file without external Application
 - Loading Spinner for big Files Android
-- base64 Support for Android
 
 #### IMPORTANT INFORMATION: THIS IS A OPEN SOURCE PROJECT, SOMETIMES I HAVE NO TIME TO DEVELOP THIS PROJECT. THANK YOU FOR YOUR PULL REQUEST AND YOUR SUPPORT. I will continue to develop it as it is possible in time.
 
