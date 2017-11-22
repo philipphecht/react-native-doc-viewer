@@ -10,7 +10,7 @@
 		"react": "16.0.0",
 		"react-native": "0.50.3",
 		"react-native-fs":"^2.3.2",
-		"react-native-doc-viewer": "2.5.3"
+		"react-native-doc-viewer": "2.5.5"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",
