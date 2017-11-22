@@ -70,8 +70,9 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String fileName =arg_object.getString("fileName");
             final String fileType =arg_object.getString("fileType");
             final Boolean cache =arg_object.getBoolean("cache");
+            final byte[] bytesData = new byte[0]; 
             // Begin the Download Task
-            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, []).execute();
+            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
         }else{
             callback.invoke(false);
         }
@@ -120,6 +121,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             Context context = getReactApplicationContext().getBaseContext();
             File outputDir = context.getCacheDir();
             if(bytesData.length > 0){
+                System.out.println("fdsflkkfdkfjdk");
                 // use cache
                 File f = cache != null && cache ? new File(outputDir, fileName) : File.createTempFile(FILE_TYPE_PREFIX, "." + fileType,
                         outputDir);
