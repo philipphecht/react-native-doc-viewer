@@ -115,7 +115,8 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
   handlePressBinaryinUrl = () => {
    OpenFile.openDocBinaryinUrl([{
      url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/{binaryString}",
-     fileName:"sample"
+     fileName:"sample",
+     filetype:'jpg'
    }], (error, url) => {
       if (error) {
         console.error(error);
@@ -133,7 +134,8 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
     OpenFile.openDoc([{
      url:SavePath+"filename.pdf",
      fileName:"sample",
-     fileExt:"pdf"
+     fileType:"",
+     fileExt:""
    }], (error, url) => {
       if (error) {
         console.error(error);
