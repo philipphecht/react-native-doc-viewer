@@ -121,7 +121,6 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             Context context = getReactApplicationContext().getBaseContext();
             File outputDir = context.getCacheDir();
             if(bytesData.length > 0){
-                System.out.println("fdsflkkfdkfjdk");
                 // use cache
                 File f = cache != null && cache ? new File(outputDir, fileName) : File.createTempFile(FILE_TYPE_PREFIX, "." + fileType,
                         outputDir);
