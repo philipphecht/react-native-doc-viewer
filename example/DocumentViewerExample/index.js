@@ -36,7 +36,7 @@ export default class DocumentViewerExample extends Component {
   handlePress = () => {
     if(Platform.OS === 'ios'){
       OpenFile.openDoc([{
-        url:"https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls",
+        url:"https://calibre-ebook.com/downloads/demos/demo.docx",
         fileNameOptional:""
       }], (error, url) => {
          if (error) {

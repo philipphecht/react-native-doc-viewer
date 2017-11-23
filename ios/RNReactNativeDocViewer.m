@@ -207,35 +207,39 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
 //Movie Files mp4
 RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)callback)
 {
-  //NSDictionary* dict = [array objectAtIndex:0];
-  NSString *_uri = file;
-
-  NSString* mediaFilePath = [[NSBundle mainBundle] pathForResource:_uri ofType:nil];
-  NSAssert(mediaFilePath, @"Media not found: %@", _uri);
-
-  NSURL *fileURL = [NSURL fileURLWithPath:mediaFilePath];
-
-  dispatch_async(dispatch_get_main_queue(), ^{
-
-    AVPlayerViewController *movieViewController = [[AVPlayerViewController alloc] init];
-
-    movieViewController.player = [AVPlayer playerWithURL:fileURL];
-
-    [movieViewController.player play];
-
-    movieViewController = movieViewController;
-
-    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    UIView *view = [ctrl view];
-
-    view.window.windowLevel = UIWindowLevelStatusBar;
-      if (callback) {
-          callback(@[[NSNull null], @"true"]);
-      }
-
-    [ctrl presentViewController:movieViewController animated:TRUE completion: nil];
-
-  });
+    //NSDictionary* dict = [array objectAtIndex:0];
+    NSString *_uri = file;
+    
+    
+    NSURL *fileURL = nil;
+    if ([_uri containsString:@"http"] || [_uri containsString:@"https"]) {
+        fileURL = [NSURL URLWithString:_uri];
+    }else{
+        NSString* mediaFilePath = [[NSBundle mainBundle] pathForResource:_uri ofType:nil];
+        NSAssert(mediaFilePath, @"Media not found: %@", _uri);
+        fileURL = [NSURL fileURLWithPath:mediaFilePath];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        AVPlayerViewController *movieViewController = [[AVPlayerViewController alloc] init];
+        
+        movieViewController.player = [AVPlayer playerWithURL:fileURL];
+        
+        [movieViewController.player play];
+        
+        movieViewController = movieViewController;
+        
+        UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        UIView *view = [ctrl view];
+        
+        view.window.windowLevel = UIWindowLevelStatusBar;
+        if (callback) {
+            callback(@[[NSNull null], @"true"]);
+        }
+        
+        [ctrl presentViewController:movieViewController animated:TRUE completion: nil];
+        
+    });
 }
 
 - (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
