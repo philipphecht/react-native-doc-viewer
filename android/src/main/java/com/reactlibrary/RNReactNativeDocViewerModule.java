@@ -69,10 +69,16 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String url = arg_object.getString("url");
             final String fileName =arg_object.getString("fileName");
             final String fileType =arg_object.getString("fileType");
-            final Boolean cache =arg_object.getBoolean("cache");
             final byte[] bytesData = new byte[0]; 
-            // Begin the Download Task
-            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
+            try {
+                final Boolean cache = arg_object.getBoolean("cache");
+                // Begin the Download Task
+                new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
+            } catch (Exception e) {
+                // Begin the Download Task
+                new FileDownloaderAsyncTask(callback, url, false, fileName, fileType, bytesData).execute();
+            }
+            
         }else{
             callback.invoke(false);
         }
@@ -91,12 +97,17 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String base64 = arg_object.getString("base64");
             final String fileName =arg_object.getString("fileName");
             final String fileType =arg_object.getString("fileType");
-            final Boolean cache = arg_object.getBoolean("cache");
             //Bytes
             final byte[] bytesData = android.util.Base64.decode(base64,android.util.Base64.DEFAULT);
             System.out.println("BytesData" + bytesData);
-            // Begin the Download Task
-            new FileDownloaderAsyncTask(callback, "", cache, fileName, fileType, bytesData).execute();
+            try {
+                final Boolean cache = arg_object.getBoolean("cache");
+                // Begin the Download Task
+                new FileDownloaderAsyncTask(callback, "", cache, fileName, fileType, bytesData).execute();
+            } catch (Exception e) {
+                // Begin the Download Task
+                new FileDownloaderAsyncTask(callback, "", false, fileName, fileType, bytesData).execute();
+            }
         }else{
             callback.invoke(false);
         }
