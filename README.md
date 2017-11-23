@@ -106,7 +106,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
       //IOS
       OpenFile.openDoc([{
         url:"https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls",
-        fileName:"sample"
+        fileNameOptional:"sample-test"
       }], (error, url) => {
          if (error) {
            console.error(error);
