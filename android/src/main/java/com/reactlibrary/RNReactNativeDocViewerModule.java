@@ -117,6 +117,27 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
        
   }
+  
+  @ReactMethod
+  public void openDocBinaryinUrl(ReadableArray args, Callback callback) {
+      final ReadableMap arg_object = args.getMap(0);
+      try {
+        if (arg_object.getString("url") != null && arg_object.getString("fileName") != null && arg_object.getString("fileType") != null) {
+            // parameter parsing
+            final String url = arg_object.getString("url");
+            final String fileName =arg_object.getString("fileName");
+            final String fileType =arg_object.getString("fileType");
+            final Boolean cache =arg_object.getBoolean("cache");
+            final byte[] bytesData = new byte[0]; 
+            // Begin the Download Task
+            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
+        }else{
+            callback.invoke(false);
+        }
+       } catch (Exception e) {
+            callback.invoke(e.getMessage());
+       }
+  }
 
     // used for all downloaded files, so we can find and delete them again.
     private final static String FILE_TYPE_PREFIX = "PP_";
@@ -161,10 +182,15 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 return f;
             }else{
                 String extension = MimeTypeMap.getFileExtensionFromUrl(Uri.encode(url));
-                System.out.println("Extensions DownloadFile " + extension);
-                if (extension.equals("")) {
+                
+                if (fileType != "") {
+                    extension = fileType;
+                    System.out.println("Extensions DownloadFile " + extension);
+                    System.out.println("extension (default): " + fileType);
+                }else (extension.equals("")) {
                     extension = "pdf";
                     System.out.println("extension (default): " + extension);
+                    System.out.println("Extensions DownloadFile " + extension);
                 }
 
                  // check has extension

@@ -82,6 +82,23 @@ Changelog:
   - Add `new RNReactNativeDocViewerPackage()` to the `List<IReactPackage>` returned by the `Packages` method
 
 
+## API DOC
+### IOS Document Viewer Doc
+
+| resource                    | description                       |
+|:----------------------------|:----------------------------------|
+| `openDoc`      | {url:String,fileNameOptional:String (optional)} |
+| `openDocb64`| {url:String,fileName:String,fileType:String }|
+| `openDocBinaryinUrl` | {url:String,fileName:String,fileType:String } |
+
+### Android Document Viewer Doc
+
+| resource                    | description                       |
+|:----------------------------|:----------------------------------|
+| `openDoc`      | {url:String,fileName:String, cache:boolean} |
+| `openDocb64`| {url:String,fileName:String,fileType:String, cache:boolean }|
+| `openDocBinaryinUrl` | not implemented yet |
+
 ## Usage
 ```javascript
 import {
@@ -106,7 +123,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
       //IOS
       OpenFile.openDoc([{
         url:"https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls",
-        fileName:"sample"
+        fileNameOptional:"sample-test"
       }], (error, url) => {
          if (error) {
            console.error(error);
