@@ -81,7 +81,8 @@ Changelog:
   - Add `using Com.Reactlibrary.RNReactNativeDocViewer;` to the usings at the top of the file
   - Add `new RNReactNativeDocViewerPackage()` to the `List<IReactPackage>` returned by the `Packages` method
 
-#### API DOC
+
+## API DOC
 ### IOS Document Viewer Doc
 
 | resource                    | description                       |
@@ -90,12 +91,13 @@ Changelog:
 | `openDocb64`| {url:String,fileName:String,fileType:String }|
 | `openDocBinaryinUrl` | {url:String,fileName:String,fileType:String } |
 
-### Android
+### Android Document Viewer Doc
 
 | resource                    | description                       |
 |:----------------------------|:----------------------------------|
 | `openDoc`      | {url:String,fileName:String, cache:boolean} |
 | `openDocb64`| {url:String,fileName:String,fileType:String, cache:boolean }|
+| `openDocBinaryinUrl` | not implemented yet |
 
 ## Usage
 ```javascript
