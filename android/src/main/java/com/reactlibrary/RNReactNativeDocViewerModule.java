@@ -69,16 +69,10 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String url = arg_object.getString("url");
             final String fileName =arg_object.getString("fileName");
             final String fileType =arg_object.getString("fileType");
+            final Boolean cache =arg_object.getBoolean("cache");
             final byte[] bytesData = new byte[0]; 
-            try {
-                final Boolean cache = arg_object.getBoolean("cache");
-                // Begin the Download Task
-                new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
-            } catch (Exception e) {
-                // Begin the Download Task
-                new FileDownloaderAsyncTask(callback, url, false, fileName, fileType, bytesData).execute();
-            }
-            
+            // Begin the Download Task
+            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
         }else{
             callback.invoke(false);
         }
@@ -97,17 +91,12 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String base64 = arg_object.getString("base64");
             final String fileName =arg_object.getString("fileName");
             final String fileType =arg_object.getString("fileType");
+            final Boolean cache = arg_object.getBoolean("cache");
             //Bytes
             final byte[] bytesData = android.util.Base64.decode(base64,android.util.Base64.DEFAULT);
             System.out.println("BytesData" + bytesData);
-            try {
-                final Boolean cache = arg_object.getBoolean("cache");
-                // Begin the Download Task
-                new FileDownloaderAsyncTask(callback, "", cache, fileName, fileType, bytesData).execute();
-            } catch (Exception e) {
-                // Begin the Download Task
-                new FileDownloaderAsyncTask(callback, "", false, fileName, fileType, bytesData).execute();
-            }
+            // Begin the Download Task
+            new FileDownloaderAsyncTask(callback, "", cache, fileName, fileType, bytesData).execute();
         }else{
             callback.invoke(false);
         }
@@ -117,7 +106,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
        
   }
-  
+
   @ReactMethod
   public void openDocBinaryinUrl(ReadableArray args, Callback callback) {
       final ReadableMap arg_object = args.getMap(0);
@@ -181,16 +170,16 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 }
                 return f;
             }else{
-                String extension = MimeTypeMap.getFileExtensionFromUrl(Uri.encode(url));
-                
-                if (fileType != "") {
-                    extension = fileType;
-                    System.out.println("Extensions DownloadFile " + extension);
-                    System.out.println("extension (default): " + fileType);
-                }else (extension.equals("")) {
+                String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+                System.out.println("Extensions DownloadFile " + extension);
+                if (extension.equals("") && fileType.equals("")) {
                     extension = "pdf";
                     System.out.println("extension (default): " + extension);
-                    System.out.println("Extensions DownloadFile " + extension);
+                }
+
+                if (fileType != "" && extension.equals("")) {
+                    extension = fileType;
+                    System.out.println("extension (default): " + extension);
                 }
 
                  // check has extension
