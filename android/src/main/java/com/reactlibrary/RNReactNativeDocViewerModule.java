@@ -106,6 +106,27 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
 
        
   }
+  
+  @ReactMethod
+  public void openDocBinaryinUrl(ReadableArray args, Callback callback) {
+      final ReadableMap arg_object = args.getMap(0);
+      try {
+        if (arg_object.getString("url") != null && arg_object.getString("fileName") != null && arg_object.getString("fileType") != null) {
+            // parameter parsing
+            final String url = arg_object.getString("url");
+            final String fileName =arg_object.getString("fileName");
+            final String fileType =arg_object.getString("fileType");
+            final Boolean cache =arg_object.getBoolean("cache");
+            final byte[] bytesData = new byte[0]; 
+            // Begin the Download Task
+            new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
+        }else{
+            callback.invoke(false);
+        }
+       } catch (Exception e) {
+            callback.invoke(e.getMessage());
+       }
+  }
 
     // used for all downloaded files, so we can find and delete them again.
     private final static String FILE_TYPE_PREFIX = "PP_";
