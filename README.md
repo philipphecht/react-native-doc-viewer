@@ -81,6 +81,12 @@ Changelog:
   - Add `using Com.Reactlibrary.RNReactNativeDocViewer;` to the usings at the top of the file
   - Add `new RNReactNativeDocViewerPackage()` to the `List<IReactPackage>` returned by the `Packages` method
 
+#### API DOC
+##IOS
+| Method  | Parameter  | Value |
+| :------------ |:---------------:| -----:|
+| openDoc      |  url | String |
+|       | fileNameOptional        |   String |
 
 ## Usage
 ```javascript
