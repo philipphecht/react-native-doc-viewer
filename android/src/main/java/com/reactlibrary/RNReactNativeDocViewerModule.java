@@ -171,10 +171,15 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 return f;
             }else{
                 String extension = MimeTypeMap.getFileExtensionFromUrl(Uri.encode(url));
-                System.out.println("Extensions DownloadFile " + extension);
-                if (extension.equals("")) {
+                
+                if (fileType != "") {
+                    extension = fileType;
+                    System.out.println("Extensions DownloadFile " + extension);
+                    System.out.println("extension (default): " + fileType);
+                }else (extension.equals("")) {
                     extension = "pdf";
                     System.out.println("extension (default): " + extension);
+                    System.out.println("Extensions DownloadFile " + extension);
                 }
 
                  // check has extension
