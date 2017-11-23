@@ -60,7 +60,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         }
 
         if ([fileType length] == 0 && [fileExt length] > 0) {
-            fileName = [NSString stringWithFormat:@"%@%@", fileName, @".", fileExt];
+            fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", fileExt];
         }
         //From the www
         if ([urlStr containsString:@"http"]) {

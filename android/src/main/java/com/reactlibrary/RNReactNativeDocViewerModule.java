@@ -211,7 +211,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         private final Callback callback;
         private final String url;
         private final String fileName;
-        private final Boolean cache; 
+        private final Boolean cache;
 
         public FileDownloaderAsyncTask(Callback callback,
                 String url, Boolean cache, String fileName) {
@@ -219,7 +219,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             this.callback = callback;
             this.url = url;
             this.fileName = fileName;
-            this.cache = cache; 
+            this.cache = cache;
         }
 
         @Override
