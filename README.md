@@ -21,9 +21,7 @@ Changelog:
 ```
 2.6.0 -   Android Openbase64
 2.5.2 -   OpenDocAndroid
-
 2.5.1 -   Cleanings
-
 2.5.0  -  Update Project for React Native 0.50.3
 
 ```
