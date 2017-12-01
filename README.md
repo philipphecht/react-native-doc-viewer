@@ -9,6 +9,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 #### 2018 Roadmap
 - Android file without external Application
 - Loading Spinner for big Files Android
+- Windows Phone Support
 
 #### IMPORTANT INFORMATION: THIS IS A OPEN SOURCE PROJECT, SOMETIMES I HAVE NO TIME TO DEVELOP THIS PROJECT. THANK YOU FOR YOUR PULL REQUEST AND YOUR SUPPORT. I will continue to develop it as it is possible in time.
 
@@ -276,11 +277,6 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
 
 ![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/Screenshot2.png "Screenshot 3")
 
-
-### ROADMAP
- * Android Quicklook support without an external application
- * Base64StringtoFile Android
- * Windows Support 
  
  Copyright (c) 2017-present, Philipp Hecht
  philipp.hecht@icloud.com
