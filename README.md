@@ -241,6 +241,22 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
           }
         })
     }
+    
+    /*
+  * Video File
+  */
+  handlePressVideo = () => {
+    if(Platform.OS === 'ios'){
+      OpenFile.playMovie(video, (error, url) => {
+                if (error) {
+                    console.error(error);
+                } else {
+                    console.log(url)
+                }
+            })
+    }else{
+      Alert.alert("Android coming soon");
+    }
   }
   
   
@@ -260,7 +276,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
           accessibilityLabel="See a Document"
         />
         <Button
-          onPress={()=>this.handlePressVideo("Path/to/Video.mp4")}
+          onPress={()=>this.handlePressVideo("http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4")}
           title="Press Me Open Video"
           accessibilityLabel="See a Document"
         />
