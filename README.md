@@ -196,7 +196,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
       OpenFile.openDoc([{
         url:SavePath+"filename.pdf",
         fileName:"sample",
-        cache:true,
+        cache:true /*Use Cache Folder Android*/
       }], (error, url) => {
           if (error) {
             console.error(error);
@@ -231,7 +231,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
         base64:"{BASE64String}"
         fileName:"sample",
         fileType:"png",
-        cache:true
+        cache:true /*Use Cache Folder Android*/
       }], (error, url) => {
           if (error) {
             console.error(error);
