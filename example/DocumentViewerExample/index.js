@@ -69,6 +69,30 @@ export default class DocumentViewerExample extends Component {
     }
    
   }
+  
+  
+  /*
+  * Handle Local File Method
+  * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
+  */
+  handlePressLocal = () => {
+    this.setState({animating: true});
+    if(Platform.OS === 'ios'){
+        OpenFile.openDoc(SavePath+"demo.docx",
+        fileNameOptional:"test filename"
+      }], (error, url) => {
+         if (error) {
+          this.setState({animating: false});
+         } else {
+          this.setState({animating: false});
+           console.log(url)
+         }
+       })
+    }else{
+     
+    }
+   
+  }
 
   /*
   * Binary in URL
@@ -189,6 +213,11 @@ export default class DocumentViewerExample extends Component {
         <Button
           onPress={this.handlePress.bind(this)}
           title="Press Me Open Doc Url"
+          accessibilityLabel="See a Document"
+        />
+        <Button
+          onPress={this.handlePressLocal.bind(this)}
+          title="Press Me Open Doc Path"
           accessibilityLabel="See a Document"
         />
         <Button
