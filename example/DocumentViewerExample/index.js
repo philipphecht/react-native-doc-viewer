@@ -78,7 +78,7 @@ export default class DocumentViewerExample extends Component {
   handlePressLocal = () => {
     this.setState({animating: true});
     if(Platform.OS === 'ios'){
-        OpenFile.openDoc(SavePath+"demo.docx",
+        OpenFile.openDoc([{url:SavePath+"demo.docx",
         fileNameOptional:"test filename"
       }], (error, url) => {
          if (error) {
