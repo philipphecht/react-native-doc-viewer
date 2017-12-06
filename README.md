@@ -6,7 +6,7 @@
 A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc, ppt, xlsx, docx, pptx etc.)
 
 #### 2017 Roadmap
-- Loading Spinner for big Files IOS and Android
+- Download Progess Event Listener for big Files IOS and Android
 #### 2018 Roadmap
 - Android file without external Application
 - Windows Phone Support
