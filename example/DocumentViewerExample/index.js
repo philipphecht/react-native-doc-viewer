@@ -89,6 +89,18 @@ export default class DocumentViewerExample extends Component {
          }
        })
     }else{
+      OpenFile.openDoc([{url:SavePath+"demo.jpg",
+        fileName:"sample",
+        cache:false,
+        fileType:"jpg"
+      }], (error, url) => {
+         if (error) {
+          this.setState({animating: false});
+         } else {
+          this.setState({animating: false});
+           console.log(url)
+         }
+       })
      
     }
    
