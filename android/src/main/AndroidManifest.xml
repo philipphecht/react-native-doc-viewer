@@ -2,7 +2,7 @@
  <application>
       <provider
             android:name="com.reactlibrary.FileProviderClass"
-+            android:authorities="${applicationId}.docViewer_provider"
+            android:authorities="${applicationId}.docViewer_provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
