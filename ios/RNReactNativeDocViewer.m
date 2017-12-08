@@ -74,7 +74,8 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             [dat writeToURL:tmpFileUrl atomically:YES];
             weakSelf.fileUrl = tmpFileUrl;
         } else {
-            NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:urlStr];
+            NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
+            NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
             weakSelf.fileUrl = tmpFileUrl;
         }
 
