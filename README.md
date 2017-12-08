@@ -180,9 +180,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
     if(Platform.OS === 'ios'){
         OpenFile.openDoc([{
         url:SavePath+"filename.pdf",
-        fileName:"sample",
-        fileType:"",
-        fileExt:""
+        fileNameOptional:"sample"
       }], (error, url) => {
           if (error) {
             console.error(error);
