@@ -322,7 +322,8 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 return;
             }
             try {
-                Uri contentUri = FileProvider.getUriForFile(context, "com.reactlibrary.provider", result);
+
+                Uri contentUri = FileProvider.getUriForFile(context, reactContext.getPackageName()+".docViewer_provider", result);
                 System.out.println("ContentUri");
                 System.out.println(contentUri);
 
