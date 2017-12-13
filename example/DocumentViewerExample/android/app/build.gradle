@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-event-bridge')
     compile project(':react-native-doc-viewer')
     compile project(':react-native-fs')
     compile fileTree(dir: "libs", include: ["*.jar"])

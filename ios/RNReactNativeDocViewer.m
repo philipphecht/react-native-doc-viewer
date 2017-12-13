@@ -17,6 +17,7 @@
 
 
 @implementation RNReactNativeDocViewer
+@synthesize alert = _alert;
 
 RCT_EXPORT_MODULE()
 
@@ -40,6 +41,11 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
 
     __weak RNReactNativeDocViewer* weakSelf = self;
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    /*_alert = [[UIAlertView alloc] initWithTitle:@"Please Wait Downloading reports..." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil] ;
+     UIProgressView *prgView = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
+    prgView.frame = CGRectMake(10, 50, 270, 20);
+    [_alert addSubview:prgView];
+    [_alert show];*/
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
@@ -74,8 +80,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             [dat writeToURL:tmpFileUrl atomically:YES];
             weakSelf.fileUrl = tmpFileUrl;
         } else {
-            NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
-            NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
+            NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:urlStr];
             weakSelf.fileUrl = tmpFileUrl;
         }
 
@@ -91,7 +96,11 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             while (root.presentedViewController) {
                 root = [root presentedViewController];
             }
-            [root presentViewController:cntr animated:YES completion:nil];
+            
+          
+            [root presentViewController:cntr animated:YES completion:^{
+                //[_alert dismissWithClickedButtonIndex:0 animated:YES];
+            }];
         });
 
     });
@@ -259,6 +268,40 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
 {
     return self.fileUrl;
 }
+
+
+/*
+ Download TASK
+ - (NSURLSession *) configureSession {
+    NSURLSessionConfiguration *config =
+    [NSURLSessionConfiguration backgroundSessionConfiguration:@"com.neuburg.matt.ch37backgroundDownload"];
+    config.allowsCellularAccess = NO;
+    // ... could set config.discretionary here ...
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    return session;
+}
+
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    CGFloat prog = (float)totalBytesWritten/totalBytesExpectedToWrite;
+    NSLog(@"downloaded %d%%", (int)(100.0*prog));
+    
+}
+
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes {
+    // unused in this example
+}
+
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
+    NSData *d = [NSData dataWithContentsOfURL:location];
+    UIImage *im = [UIImage imageWithData:d];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //self.image = im;
+    });
+}
+
+-(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    NSLog(@"completed; error: %@", error);
+}*/
 
 
 
