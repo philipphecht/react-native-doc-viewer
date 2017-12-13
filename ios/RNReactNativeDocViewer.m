@@ -17,7 +17,6 @@
 
 
 @implementation RNReactNativeDocViewer
-@synthesize alert = _alert;
 CGFloat prog;
 
 RCT_EXPORT_MODULE()

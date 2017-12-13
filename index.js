@@ -6,6 +6,5 @@ export default {
   openDocb64: RNReactNativeDocViewer.openDocb64,
   playMovie: RNReactNativeDocViewer.playMovie,
   openDocBinaryinUrl:RNReactNativeDocViewer.openDocBinaryinUrl,
-  testModule: RNReactNativeDocViewer.testModule,
-  statusProgress: RNReactNativeDocViewer.statusProgress,
+  testModule: RNReactNativeDocViewer.testModule
 }
