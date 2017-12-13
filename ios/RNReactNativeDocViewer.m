@@ -32,14 +32,10 @@ RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
     RCTLogInfo(@"TEST Module %@ at %@", name, location);
 }
 
-RCT_EXPORT_METHOD(statusProgress:(Boolean *)progress callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(statusProgress:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
-    //NSArray *events = ...
-    if(progress){
-        callback(@[[NSNull null], @(prog)]);
-    }else {
-        callback(@[[NSNull null], @"no progress defined"]);
-    }
+
+   callback(@[[NSNull null], @(prog)]);
     
 }
 
