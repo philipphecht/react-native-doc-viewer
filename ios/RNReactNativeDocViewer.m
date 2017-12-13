@@ -18,6 +18,7 @@
 
 @implementation RNReactNativeDocViewer
 @synthesize alert = _alert;
+CGFloat prog;
 
 RCT_EXPORT_MODULE()
 
@@ -31,6 +32,17 @@ RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
     RCTLogInfo(@"TEST Module %@ at %@", name, location);
 }
 
+RCT_EXPORT_METHOD(statusProgress:(Boolean *)progress callback:(RCTResponseSenderBlock)callback)
+{
+    //NSArray *events = ...
+    if(progress){
+        callback(@[[NSNull null], @(prog)]);
+    }else {
+        callback(@[[NSNull null], @"no progress defined"]);
+    }
+    
+}
+
 /**
  * openDoc
  * open Base64 String
@@ -40,12 +52,25 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
 {
 
     __weak RNReactNativeDocViewer* weakSelf = self;
-    dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    /*_alert = [[UIAlertView alloc] initWithTitle:@"Please Wait Downloading reports..." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil] ;
-     UIProgressView *prgView = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
-    prgView.frame = CGRectMake(10, 50, 270, 20);
-    [_alert addSubview:prgView];
+    //Download Progress
+    NSDictionary* dict_download = [array objectAtIndex:0];
+    NSString* urlStrdownload = dict_download[@"url"];
+    [self hitServerForUrl:urlStrdownload];
+    //Download END
+    /*_alert = [[UIAlertView alloc] initWithTitle:@"" message:@"" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+    _downloadProgressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    _downloadProgressView.frame = CGRectMake(20, 20, 200, 15);
+    _downloadProgressView.progress = 0.5;
+    UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    progressView.progress = 0.75f;
+    [[UIProgressView appearance] setFrame:CGRectMake(20, 100, 280, 50)];
+    [progressView.layer setCornerRadius:4];
+    progressView.layer.masksToBounds = TRUE;
+    progressView.clipsToBounds = TRUE;
+    
+    [_alert addSubview: progressView];
     [_alert show];*/
+    dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
@@ -79,7 +104,10 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
             [dat writeToURL:tmpFileUrl atomically:YES];
             weakSelf.fileUrl = tmpFileUrl;
+            (int)(100.0*prog);
+            
         } else {
+            
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:urlStr];
             weakSelf.fileUrl = tmpFileUrl;
         }
@@ -270,38 +298,61 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
 }
 
 
-/*
- Download TASK
- - (NSURLSession *) configureSession {
-    NSURLSessionConfiguration *config =
-    [NSURLSessionConfiguration backgroundSessionConfiguration:@"com.neuburg.matt.ch37backgroundDownload"];
-    config.allowsCellularAccess = NO;
-    // ... could set config.discretionary here ...
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
-    return session;
-}
-
--(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    CGFloat prog = (float)totalBytesWritten/totalBytesExpectedToWrite;
-    NSLog(@"downloaded %d%%", (int)(100.0*prog));
+//Download Task example
+- (void)hitServerForUrl:(NSString*)urlString {
+    NSURL *requestUrl = [NSURL URLWithString:urlString];
+    
+    NSURLSessionConfiguration *defaultConfigurationObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigurationObject delegate:self delegateQueue: nil];
+    
+    NSURLSessionDownloadTask *fileDownloadTask = [defaultSession downloadTaskWithURL:requestUrl];
+    
+    [fileDownloadTask resume];
     
 }
 
--(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes {
-    // unused in this example
+/*- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+didFinishDownloadingToURL:(NSURL *)location {
+    
+    NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSURL *documentsDirectoryURL = [NSURL fileURLWithPath:documentsPath];
+    NSURL *documentURL = [documentsDirectoryURL URLByAppendingPathComponent:[downloadTask.response suggestedFilename]];
+    NSError *error;
+    
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:[downloadTask.response suggestedFilename]];
+    NSLog(@"file path : %@", filePath);
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        //Remove the old file from directory
+    }
+    
+    [[NSFileManager defaultManager] moveItemAtURL:location
+                                            toURL:documentURL
+                                            error:&error];
+    if (error){
+        //Handle error here
+    }
+}*/
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    if (error != nil) {
+        NSData *resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData];
+        self.downloadResumeData = resumeData;
+    }
 }
 
--(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    NSData *d = [NSData dataWithContentsOfURL:location];
-    UIImage *im = [UIImage imageWithData:d];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //self.image = im;
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten
+ totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        float progressValue = totalBytesWritten/totalBytesExpectedToWrite;
+        prog = (float)totalBytesWritten/totalBytesExpectedToWrite;
+        NSLog(@"downloaded %d%%", (int)(100.0*prog));
+        //NSLog(@"downloaded 1 %f%%", progressValue);
+        
     });
 }
-
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-    NSLog(@"completed; error: %@", error);
-}*/
 
 
 
