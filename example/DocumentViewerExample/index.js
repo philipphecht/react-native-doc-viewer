@@ -41,7 +41,7 @@ export default class DocumentViewerExample extends Component {
     console.log( 'ADDING EVENT LISTENERS' );
     NativeAppEventEmitter.addListener(
       'RNDownloaderProgress',
-      (Event) => console.log(Event)
+      (Event) => console.log("ddddd"+Event.progress)
     );
     
   }
