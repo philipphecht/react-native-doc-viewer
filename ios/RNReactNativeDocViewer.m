@@ -7,17 +7,17 @@
 //
 #import "RNReactNativeDocViewer.h"
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-#if __has_include("RCTLog.h")
-#import "RCTLog.h"
-#else
-#import <React/RCTLog.h>
-#endif
+
+
 
 
 @implementation RNReactNativeDocViewer
 CGFloat prog;
+@synthesize bridge = _bridge;
+
 
 RCT_EXPORT_MODULE()
 
@@ -51,20 +51,6 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
     NSDictionary* dict_download = [array objectAtIndex:0];
     NSString* urlStrdownload = dict_download[@"url"];
     [self hitServerForUrl:urlStrdownload];
-    //Download END
-    /*_alert = [[UIAlertView alloc] initWithTitle:@"" message:@"" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
-    _downloadProgressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    _downloadProgressView.frame = CGRectMake(20, 20, 200, 15);
-    _downloadProgressView.progress = 0.5;
-    UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    progressView.progress = 0.75f;
-    [[UIProgressView appearance] setFrame:CGRectMake(20, 100, 280, 50)];
-    [progressView.layer setCornerRadius:4];
-    progressView.layer.masksToBounds = TRUE;
-    progressView.clipsToBounds = TRUE;
-    
-    [_alert addSubview: progressView];
-    [_alert show];*/
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
@@ -99,7 +85,6 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
             [dat writeToURL:tmpFileUrl atomically:YES];
             weakSelf.fileUrl = tmpFileUrl;
-            (int)(100.0*prog);
             
         } else {
             
@@ -138,6 +123,9 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
 RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
     __weak RNReactNativeDocViewer* weakSelf = self;
+    NSDictionary* dict_download = [array objectAtIndex:0];
+    NSString* urlStrdownload = dict_download[@"url"];
+    [self hitServerForUrl:urlStrdownload];
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
@@ -341,14 +329,18 @@ didFinishDownloadingToURL:(NSURL *)location {
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     dispatch_sync(dispatch_get_main_queue(), ^{
-        float progressValue = totalBytesWritten/totalBytesExpectedToWrite;
+        //float progressValue = totalBytesWritten/totalBytesExpectedToWrite;
         prog = (float)totalBytesWritten/totalBytesExpectedToWrite;
         NSLog(@"downloaded %d%%", (int)(100.0*prog));
-        //NSLog(@"downloaded 1 %f%%", progressValue);
-        
+        NSNumber *progress = @([@(totalBytesWritten) floatValue]/[@(totalBytesExpectedToWrite) floatValue] * 100.0);
+        [self sendEventWithName:@"RNDownloaderProgress" body:@{ @"totalBytesWritten": @(totalBytesWritten),
+                                                                @"totalBytesExpectedToWrite": @(totalBytesExpectedToWrite),
+                                                                @"progress": progress }];
+
     });
 }
-
-
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"RNDownloaderProgress"];
+}
 
 @end

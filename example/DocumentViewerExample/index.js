@@ -23,7 +23,11 @@ import {
   Platform,
   Button,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  NativeAppEventEmitter,
+  DeviceEventEmitter,
+  NativeModules,
+  NativeEventEmitter
 } from 'react-native';
 import OpenFile from 'react-native-doc-viewer';
 var RNFS = require('react-native-fs');
@@ -31,6 +35,26 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
 export default class DocumentViewerExample extends Component {
   
   state = { animating: false}
+
+  componentDidMount(){
+    // download progress
+    console.log( 'ADDING EVENT LISTENERS' );
+    NativeAppEventEmitter.addListener(
+      'RNDownloaderProgress',
+      (Event) => console.log(Event)
+    );
+    
+  }
+
+  componentWillMount () {
+    DeviceEventEmitter.addListener('RNDownloaderProgress', function(Event) {
+      // handle event.
+      console.log(Event);
+    });
+  }
+
+  
+
   /*
   * Handle WWW File Method
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
