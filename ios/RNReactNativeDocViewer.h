@@ -6,7 +6,7 @@
 
 
 
-@interface RNReactNativeDocViewer : RCTEventEmitter <RCTBridgeModule, QLPreviewControllerDelegate, QLPreviewControllerDataSource, QLPreviewItem>
+@interface RNReactNativeDocViewer : RCTEventEmitter <RCTBridgeModule, QLPreviewControllerDelegate, QLPreviewControllerDataSource, QLPreviewItem, UIAlertViewDelegate>
 @property (strong, nonatomic) NSURL* fileUrl;
 @property (readonly) NSURL* previewItemURL;
 @property (strong, nonatomic) NSData* downloadResumeData;

@@ -19,6 +19,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
+2.7.2 -   Progress Download Feedback in example and Done Button Callback IOS
 2.7.1 -   Fix Progress IOS Download
 2.6.9 -   Progress IOS DOWNLOAD Document Callback in Native Code 
 2.6.0 -   Android Openbase64
@@ -88,6 +89,12 @@ Changelog:
 
 | resource                    | description                       |
 |:----------------------------|:----------------------------------|
+| `DoneButtonEvent`      | return true |
+| `RNDownloaderProgress`| return Progress Float|
+
+
+| resource                    | description                       |
+|:----------------------------|:----------------------------------|
 | `openDoc`      | {url:String,fileNameOptional:String (optional)} |
 | `openDocb64`| {url:String,fileName:String,fileType:String }|
 | `openDocBinaryinUrl` | {url:String,fileName:String,fileType:String } |
@@ -102,6 +109,7 @@ Changelog:
 
 ## Usage
 ```javascript
+import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
@@ -109,12 +117,52 @@ import {
   View,
   Platform,
   Button,
-  Alert
+  Alert,
+  ActivityIndicator,
+  NativeAppEventEmitter,
+  DeviceEventEmitter,
+  NativeModules,
+  NativeEventEmitter,
+  TouchableHighlight
 } from 'react-native';
 import OpenFile from 'react-native-doc-viewer';
 var RNFS = require('react-native-fs');
 var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirectoryPath;
+export default class DocumentViewerExample extends Component {
+ constructor(props) {
+    super(props);
+    this.state = { 
+      animating: false,
+      progress: "",
+      donebuttonclicked: false,
+    }
+    this.eventEmitter = new NativeEventEmitter(NativeModules.RNReactNativeDocViewer);
+    this.eventEmitter.addListener('DoneButtonEvent', (data) => {
+      /*
+      *Done Button Clicked
+      * return true
+      */
+      console.log(data.close);
+      this.setState({donebuttonclicked: data.close});
+    })
+    this.didPressToObjcButton = this.didPressToObjcButton.bind(this);
+  }
 
+  componentDidMount(){
+    // download progress
+    this.eventEmitter.addListener(
+      'RNDownloaderProgress',
+      (Event) => {
+        console.log("Progress - Download "+Event.progress  + " %")
+        this.setState({progress: Event.progress + " %"});
+      } 
+      
+    );
+  }
+
+  componentWillUnmount (){
+    this.eventEmitter.removeListener();
+  }
   /*
   * Handle WWW File Method
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
@@ -278,6 +326,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
           title="Press Me Open Video"
           accessibilityLabel="See a Document"
         />
+}
 ```
 
 

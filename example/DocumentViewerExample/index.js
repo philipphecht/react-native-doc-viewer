@@ -27,32 +27,52 @@ import {
   NativeAppEventEmitter,
   DeviceEventEmitter,
   NativeModules,
-  NativeEventEmitter
+  NativeEventEmitter,
+  TouchableHighlight
 } from 'react-native';
 import OpenFile from 'react-native-doc-viewer';
 var RNFS = require('react-native-fs');
 var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirectoryPath;
 export default class DocumentViewerExample extends Component {
-  
-  state = { animating: false}
+  constructor(props) {
+    super(props);
+    this.state = { 
+      animating: false,
+      progress: "",
+      donebuttonclicked: false,
+    }
+    this.eventEmitter = new NativeEventEmitter(NativeModules.RNReactNativeDocViewer);
+    this.eventEmitter.addListener('DoneButtonEvent', (data) => {
+      /*
+      *Done Button Clicked
+      * return true
+      */
+      console.log(data.close);
+      this.setState({donebuttonclicked: data.close});
+    })
+    this.didPressToObjcButton = this.didPressToObjcButton.bind(this);
+  }
 
   componentDidMount(){
     // download progress
-    console.log( 'ADDING EVENT LISTENERS' );
-    NativeAppEventEmitter.addListener(
+    this.eventEmitter.addListener(
       'RNDownloaderProgress',
-      (Event) => console.log("ddddd"+Event.progress)
+      (Event) => {
+        console.log("Progress - Download "+Event.progress  + " %")
+        this.setState({progress: Event.progress + " %"});
+      } 
+      
     );
-    
   }
 
-  componentWillMount () {
-    DeviceEventEmitter.addListener('RNDownloaderProgress', function(Event) {
-      // handle event.
-      console.log(Event);
-    });
+  componentWillUnmount (){
+    this.eventEmitter.removeListener();
   }
 
+  didPressToObjcButton() {
+    // We'll sent event press button to ObjetiveC
+    NativeModules.RNReactNativeDocViewer.showAlert('This is react-native');
+  }
   
 
   /*
@@ -239,6 +259,13 @@ export default class DocumentViewerExample extends Component {
     return (
       
       <View style={styles.container}>
+      <TouchableHighlight style={styles.button}
+          underlayColor='#99d9f4'
+          onPress={this.didPressToObjcButton}>
+          <Text style={styles.buttonText}></Text>
+        </TouchableHighlight>
+        <Text>{this.state.progress}</Text>
+        <Text>{this.state.donebuttonclicked ? "Done Button Clicked" : ""}</Text>
       <ActivityIndicator
         animating={this.state.animating}
         style={[styles.centering, {height: 80}]}

@@ -21,6 +21,10 @@ CGFloat prog;
 
 RCT_EXPORT_MODULE()
 
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"RNDownloaderProgress", @"DoneButtonEvent", @"CancelEvent", @"OKEvent"];
+}
+
 - (dispatch_queue_t)methodQueue
 {
   return dispatch_get_main_queue();
@@ -107,7 +111,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             
           
             [root presentViewController:cntr animated:YES completion:^{
-                //[_alert dismissWithClickedButtonIndex:0 animated:YES];
+                
             }];
         });
 
@@ -262,6 +266,10 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
         
     });
 }
+//Dismiss QuickViewController
+- (void)previewControllerDidDismiss:(QLPreviewController *)controller {
+    [self DoneButtonClicked];
+}
 
 - (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
 {
@@ -270,6 +278,7 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
 
 - (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index
 {
+    
     return self;
 }
 
@@ -295,27 +304,10 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
     
 }
 
-/*- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
-didFinishDownloadingToURL:(NSURL *)location {
-    
-    NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSURL *documentsDirectoryURL = [NSURL fileURLWithPath:documentsPath];
-    NSURL *documentURL = [documentsDirectoryURL URLByAppendingPathComponent:[downloadTask.response suggestedFilename]];
-    NSError *error;
-    
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:[downloadTask.response suggestedFilename]];
-    NSLog(@"file path : %@", filePath);
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        //Remove the old file from directory
-    }
-    
-    [[NSFileManager defaultManager] moveItemAtURL:location
-                                            toURL:documentURL
-                                            error:&error];
-    if (error){
-        //Handle error here
-    }
-}*/
+
+- (void)DoneButtonClicked {
+    [self sendEventWithName:@"DoneButtonEvent" body:@{ @"close": @true}];
+}
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     if (error != nil) {
@@ -331,7 +323,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     dispatch_sync(dispatch_get_main_queue(), ^{
         //float progressValue = totalBytesWritten/totalBytesExpectedToWrite;
         prog = (float)totalBytesWritten/totalBytesExpectedToWrite;
-        NSLog(@"downloaded %d%%", (int)(100.0*prog));
+        //NSLog(@"downloaded %d%%", (int)(100.0*prog));
         NSNumber *progress = @([@(totalBytesWritten) floatValue]/[@(totalBytesExpectedToWrite) floatValue] * 100.0);
         [self sendEventWithName:@"RNDownloaderProgress" body:@{ @"totalBytesWritten": @(totalBytesWritten),
                                                                 @"totalBytesExpectedToWrite": @(totalBytesExpectedToWrite),
@@ -339,8 +331,53 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
 
     });
 }
-- (NSArray<NSString *> *)supportedEvents {
-    return @[@"RNDownloaderProgress"];
+
+
+RCT_EXPORT_METHOD(showAlert:(NSString *)msg) {
+    
+    // We'll show UIAlerView to know listener successful.
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
+    
+    
 }
+
+#pragma mark - UIAlertView delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 0) {
+        // Sent event tap on Cancel
+        [self sendEventWithName:@"CancelEvent" body:@"Tap on Cancel"];
+        
+    } else if (buttonIndex == 1) {
+        // Sent event tap on Ok
+        [self sendEventWithName:@"OKEvent" body:@"Tap on OK"];
+    }
+}
+
+/*- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+ didFinishDownloadingToURL:(NSURL *)location {
+ 
+ NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+ NSURL *documentsDirectoryURL = [NSURL fileURLWithPath:documentsPath];
+ NSURL *documentURL = [documentsDirectoryURL URLByAppendingPathComponent:[downloadTask.response suggestedFilename]];
+ NSError *error;
+ 
+ NSString *filePath = [documentsPath stringByAppendingPathComponent:[downloadTask.response suggestedFilename]];
+ NSLog(@"file path : %@", filePath);
+ if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+ //Remove the old file from directory
+ }
+ 
+ [[NSFileManager defaultManager] moveItemAtURL:location
+ toURL:documentURL
+ error:&error];
+ if (error){
+ //Handle error here
+ }
+ }*/
 
 @end
