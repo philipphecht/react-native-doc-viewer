@@ -83,7 +83,7 @@ export default class DocumentViewerExample extends Component {
     this.setState({animating: true});
     if(Platform.OS === 'ios'){
       OpenFile.openDoc([{
-        url:"https://calibre-ebook.com/downloads/demos/demo.docx",
+        url:"https://people.sc.fsu.edu/~jburkardt/data/csv/crash_catalonia.csv",
         fileNameOptional:"test filename"
       }], (error, url) => {
          if (error) {
@@ -122,7 +122,7 @@ export default class DocumentViewerExample extends Component {
   handlePressLocal = () => {
     this.setState({animating: true});
     if(Platform.OS === 'ios'){
-        OpenFile.openDoc([{url:SavePath+"demo.docx",
+        OpenFile.openDoc([{url:SavePath+"/example_local.jpg",
         fileNameOptional:"test filename"
       }], (error, url) => {
          if (error) {
@@ -133,7 +133,7 @@ export default class DocumentViewerExample extends Component {
          }
        })
     }else{
-      OpenFile.openDoc([{url:SavePath+"demo.jpg",
+      OpenFile.openDoc([{url:SavePath+"/demo.jpg",
         fileName:"sample",
         cache:false,
         fileType:"jpg"

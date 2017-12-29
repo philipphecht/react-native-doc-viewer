@@ -39,6 +39,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		D3DE9AB7959E418AB70B2C47 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EDE302BC3849F68E57D820 /* libRNFS.a */; };
+		FA63C3BF1FF6623C0011403F /* example_local.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA63C3BE1FF6623C0011403F /* example_local.jpg */; };
 		FA86A2A41FCACCF700F109FE /* libMSREventBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA86A2A21FCACBD100F109FE /* libMSREventBridge.a */; };
 /* End PBXBuildFile section */
 
@@ -364,6 +365,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		D0950C76510E4174B31E256D /* libMSREventBridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libMSREventBridge.a; sourceTree = "<group>"; };
+		FA63C3BE1FF6623C0011403F /* example_local.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = example_local.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -589,6 +591,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				FA63C3961FF662210011403F /* resource */,
 				13B07FAE1A68108700A75B9A /* DocumentViewerExample */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DocumentViewerExampleTests */,
@@ -619,6 +622,14 @@
 				FABFD6A61FC3F5CD00B4C341 /* libRCTBlob-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FA63C3961FF662210011403F /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				FA63C3BE1FF6623C0011403F /* example_local.jpg */,
+			);
+			path = resource;
 			sourceTree = "<group>";
 		};
 		FA86A29E1FCACBD000F109FE /* Products */ = {
@@ -1135,6 +1146,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				FA63C3BF1FF6623C0011403F /* example_local.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
