@@ -39,6 +39,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C5C262FDDD42456FA54DCB34 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CF7EA9345747828C13444C /* libRNFS.a */; };
 		FA68E5A4206AA80500CFED6A /* react-native-logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA68E5A3206AA80500CFED6A /* react-native-logo.jpg */; };
+		FA68E5A6206AA9AD00CFED6A /* SampleXLSFile_19kb.xls in Resources */ = {isa = PBXBuildFile; fileRef = FA68E5A5206AA9AD00CFED6A /* SampleXLSFile_19kb.xls */; };
 		FAC8A857206AA2CB00EEE084 /* libRNReactNativeDocViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC8A853206AA10000EEE084 /* libRNReactNativeDocViewer.a */; };
 /* End PBXBuildFile section */
 
@@ -371,6 +372,7 @@
 		8771A72F5C644F198946E702 /* RNReactNativeDocViewer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNReactNativeDocViewer.xcodeproj; path = "../node_modules/react-native-doc-viewer/ios/RNReactNativeDocViewer.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		FA68E5A3206AA80500CFED6A /* react-native-logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "react-native-logo.jpg"; sourceTree = "<group>"; };
+		FA68E5A5206AA9AD00CFED6A /* SampleXLSFile_19kb.xls */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleXLSFile_19kb.xls; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -640,6 +642,7 @@
 		FA68E57A206AA7C300CFED6A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FA68E5A5206AA9AD00CFED6A /* SampleXLSFile_19kb.xls */,
 				FA68E5A3206AA80500CFED6A /* react-native-logo.jpg */,
 			);
 			path = Resources;
@@ -1146,6 +1149,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				FA68E5A6206AA9AD00CFED6A /* SampleXLSFile_19kb.xls in Resources */,
 				FA68E5A4206AA80500CFED6A /* react-native-logo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

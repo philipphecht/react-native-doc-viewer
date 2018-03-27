@@ -147,8 +147,38 @@ export default class ReactDocViewerExample extends Component {
        })
      
     }
-   
   }
+
+    handlePressLocalXLS = () => {
+      this.setState({animating: true});
+      if(Platform.OS === 'ios'){
+          OpenFile.openDoc([{url:SavePath+"/SampleXLSFile_19kb.xls",
+          fileNameOptional:"Sample XLS 94-2003"
+        }], (error, url) => {
+           if (error) {
+            this.setState({animating: false});
+           } else {
+            this.setState({animating: false});
+             console.log(url)
+           }
+         })
+      }else{
+        OpenFile.openDoc([{url:SavePath+"/demo.jpg",
+          fileName:"sample",
+          cache:false,
+          fileType:"jpg"
+        }], (error, url) => {
+           if (error) {
+            this.setState({animating: false});
+           } else {
+            this.setState({animating: false});
+             console.log(url)
+           }
+         })
+       
+      }
+    }
+  
 
   /*
   * Binary in URL
@@ -281,6 +311,11 @@ export default class ReactDocViewerExample extends Component {
         <Button
           onPress={this.handlePressLocal.bind(this)}
           title="Press Me Open Doc Path"
+          accessibilityLabel="See a Document"
+        />
+        <Button
+          onPress={this.handlePressLocalXLS.bind(this)}
+          title="Press Me Open XLS DOC Path"
           accessibilityLabel="See a Document"
         />
         <Button
