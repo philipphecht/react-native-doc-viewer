@@ -83,7 +83,7 @@ export default class DocumentViewerExample extends Component {
     this.setState({animating: true});
     if(Platform.OS === 'ios'){
       OpenFile.openDoc([{
-        url:"https://people.sc.fsu.edu/~jburkardt/data/csv/crash_catalonia.csv",
+        url:"https://calibre-ebook.com/downloads/demos/demo.docx",
         fileNameOptional:"test filename"
       }], (error, url) => {
          if (error) {
