@@ -604,7 +604,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				FA68E57A206AA7C300CFED6A /* New Group */,
+				FA68E57A206AA7C300CFED6A /* Resources */,
 				13B07FAE1A68108700A75B9A /* ReactDocViewerExample */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ReactDocViewerExampleTests */,
@@ -637,12 +637,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FA68E57A206AA7C300CFED6A /* New Group */ = {
+		FA68E57A206AA7C300CFED6A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				FA68E5A3206AA80500CFED6A /* react-native-logo.jpg */,
 			);
-			path = "New Group";
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		FAC8A811206AA0FA00EEE084 /* Recovered References */ = {
