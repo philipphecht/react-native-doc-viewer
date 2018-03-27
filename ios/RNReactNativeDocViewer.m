@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-
+#import "QLCustomPreviewItem.h"
 
 
 
@@ -94,6 +94,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:urlStr];
             weakSelf.fileUrl = tmpFileUrl;
+            weakSelf.optionalFileName = fileNameOptional;
         }
 
 
@@ -278,7 +279,10 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
 
 - (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index
 {
-    
+    if(self.optionalFileName) {
+        QLCustomPreviewItem *previewItem = [[QLCustomPreviewItem alloc] initWithURL:self.fileUrl optionalFileName:self.optionalFileName];
+        return previewItem;
+    }
     return self;
 }
 
