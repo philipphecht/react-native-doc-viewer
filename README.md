@@ -183,34 +183,105 @@ export default class DocumentViewerExample extends Component {
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
   */
   handlePress = () => {
-   if(Platform.OS === 'ios'){
-      //IOS
+    this.setState({animating: true});
+    if(Platform.OS === 'ios'){
       OpenFile.openDoc([{
-        url:"https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls",
-        fileNameOptional:"sample-test"
+        url:"https://calibre-ebook.com/downloads/demos/demo.docx",
+        fileNameOptional:"test filename"
       }], (error, url) => {
          if (error) {
-           console.error(error);
+          this.setState({animating: false});
          } else {
+          this.setState({animating: false});
            console.log(url)
          }
        })
     }else{
       //Android
+      this.setState({animating: true});
       OpenFile.openDoc([{
-        url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg", // Local "file://" + filepath
+        url:"https://www.huf-haus.com/fileadmin/Bilder/Header/ART_3/Header_HUF_Haus_ART_3___1_.jpg", // Local "file://" + filepath
         fileName:"sample",
         cache:false,
         fileType:"jpg"
       }], (error, url) => {
          if (error) {
+          this.setState({animating: false});
            console.error(error);
          } else {
+          this.setState({animating: false});
            console.log(url)
          }
        })
     }
+   
   }
+  
+  
+  /*
+  * Handle Local File Method
+  * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
+  */
+  handlePressLocal = () => {
+    this.setState({animating: true});
+    if(Platform.OS === 'ios'){
+        OpenFile.openDoc([{url:SavePath+"/react-native-logo.jpg",
+        fileNameOptional:"test filename"
+      }], (error, url) => {
+         if (error) {
+          this.setState({animating: false});
+         } else {
+          this.setState({animating: false});
+           console.log(url)
+         }
+       })
+    }else{
+      OpenFile.openDoc([{url:SavePath+"/demo.jpg",
+        fileName:"sample",
+        cache:false,
+        fileType:"jpg"
+      }], (error, url) => {
+         if (error) {
+          this.setState({animating: false});
+         } else {
+          this.setState({animating: false});
+           console.log(url)
+         }
+       })
+     
+    }
+  }
+
+    handlePressLocalXLS = () => {
+      this.setState({animating: true});
+      if(Platform.OS === 'ios'){
+          OpenFile.openDoc([{url:SavePath+"/SampleXLSFile_19kb.xls",
+          fileNameOptional:"Sample XLS 94-2003"
+        }], (error, url) => {
+           if (error) {
+            this.setState({animating: false});
+           } else {
+            this.setState({animating: false});
+             console.log(url)
+           }
+         })
+      }else{
+        OpenFile.openDoc([{url:SavePath+"/demo.jpg",
+          fileName:"sample",
+          cache:false,
+          fileType:"jpg"
+        }], (error, url) => {
+           if (error) {
+            this.setState({animating: false});
+           } else {
+            this.setState({animating: false});
+             console.log(url)
+           }
+         })
+       
+      }
+    }
+  
 
   /*
   * Binary in URL
@@ -218,8 +289,8 @@ export default class DocumentViewerExample extends Component {
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
   */
   handlePressBinaryinUrl = () => {
+    this.setState({animating: true});
     if(Platform.OS === 'ios'){
-      //IOS
       OpenFile.openDocBinaryinUrl([{
         url:"https://storage.googleapis.com/need-sure/example",
         fileName:"sample",
@@ -227,43 +298,25 @@ export default class DocumentViewerExample extends Component {
       }], (error, url) => {
           if (error) {
             console.error(error);
+            this.setState({animating: false});
           } else {
             console.log(url)
+            this.setState({animating: false});
           }
         })
     }else{
-      //Android
-      Alert.alert("Coming soon for Android")
-    }
-  }
-  
-  /*
-  * Handle local File Method
-  * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
-  */
-  handlePressLocalFile = () => {
-    if(Platform.OS === 'ios'){
-        OpenFile.openDoc([{
-        url:SavePath+"filename.pdf",
-        fileNameOptional:"sample"
-      }], (error, url) => {
-          if (error) {
-            console.error(error);
-          } else {
-            console.log(url)
-          }
-        })
-    }else{
-      //Android
-      OpenFile.openDoc([{
-        url:SavePath+"filename.pdf",
+      OpenFile.openDocBinaryinUrl([{
+        url:"https://storage.googleapis.com/need-sure/example",
         fileName:"sample",
-        cache:true /*Use Cache Folder Android*/
+        fileType:"xml",
+        cache:true
       }], (error, url) => {
           if (error) {
             console.error(error);
+            this.setState({animating: false});
           } else {
             console.log(url)
+            this.setState({animating: false});
           }
         })
     }
@@ -329,6 +382,16 @@ export default class DocumentViewerExample extends Component {
         <Button
           onPress={this.handlePressBinaryinUrl.bind(this)}
           title="Press Me Open BinaryinUrl"
+          accessibilityLabel="See a Document"
+        />
+         <Button
+          onPress={this.handlePressLocal.bind(this)}
+          title="Press Me Open Doc Path"
+          accessibilityLabel="See a Document"
+        />
+        <Button
+          onPress={this.handlePressLocalXLS.bind(this)}
+          title="Press Me Open XLS DOC Path"
           accessibilityLabel="See a Document"
         />
         <Button
