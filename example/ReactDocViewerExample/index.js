@@ -122,7 +122,7 @@ export default class ReactDocViewerExample extends Component {
   handlePressLocal = () => {
     this.setState({animating: true});
     if(Platform.OS === 'ios'){
-        OpenFile.openDoc([{url:SavePath+"/example_local.jpg",
+        OpenFile.openDoc([{url:SavePath+"/react-native-logo.jpg",
         fileNameOptional:"test filename"
       }], (error, url) => {
          if (error) {
