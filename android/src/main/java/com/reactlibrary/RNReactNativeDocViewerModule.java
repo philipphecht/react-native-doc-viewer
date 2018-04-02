@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.philipphecht;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -70,7 +70,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String fileName =arg_object.getString("fileName");
             final String fileType =arg_object.getString("fileType");
             final Boolean cache =arg_object.getBoolean("cache");
-            final byte[] bytesData = new byte[0]; 
+            final byte[] bytesData = new byte[0];
             // Begin the Download Task
             new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
         }else{
@@ -104,7 +104,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             callback.invoke(e.getMessage());
        }
 
-       
+
   }
 
   @ReactMethod
@@ -117,7 +117,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             final String fileName =arg_object.getString("fileName");
             final String fileType =arg_object.getString("fileType");
             final Boolean cache =arg_object.getBoolean("cache");
-            final byte[] bytesData = new byte[0]; 
+            final byte[] bytesData = new byte[0];
             // Begin the Download Task
             new FileDownloaderAsyncTask(callback, url, cache, fileName, fileType, bytesData).execute();
         }else{
@@ -217,7 +217,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 // use cache
                 File f = cache != null && cache ? new File(outputDir, fileName) : File.createTempFile(FILE_TYPE_PREFIX, "." + extension,
                         outputDir);
-            
+
                 // make sure the receiving app can read this file
                 f.setReadable(true, false);
                 System.out.println(f.getPath());
@@ -249,8 +249,8 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 return f;
             }
 
-           
-           
+
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -289,7 +289,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
         private final Callback callback;
         private final String url;
         private final String fileName;
-        private final Boolean cache; 
+        private final Boolean cache;
         private final String fileType;
         private final byte[] bytesData;
 
