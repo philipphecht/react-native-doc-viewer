@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace Com.Reactlibrary.RNReactNativeDocViewer
+namespace Com.Philipphecht.RNReactNativeDocViewer
 {
     /// <summary>
     /// A module that allows JS to share data.

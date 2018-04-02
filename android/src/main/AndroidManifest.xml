@@ -1,7 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.reactlibrary">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.philipphecht">
  <application>
       <provider
-            android:name="com.reactlibrary.FileProviderClass"
+            android:name="com.philipphecht.FileProviderClass"
             android:authorities="${applicationId}.docViewer_provider"
             android:exported="false"
             android:grantUriPermissions="true">
