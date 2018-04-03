@@ -4,7 +4,7 @@ using ReactNative.UIManager;
 using System;
 using System.Collections.Generic;
 
-namespace Com.Reactlibrary.RNReactNativeDocViewer
+namespace Com.Philipphecht.RNReactNativeDocViewer
 {
     /// <summary>
     /// Package defining core framework modules (e.g., <see cref="UIManagerModule"/>).
