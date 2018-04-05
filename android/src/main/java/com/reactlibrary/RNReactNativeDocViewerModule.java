@@ -325,8 +325,9 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
             Context context = getCurrentActivity();
            String mimeType;
             // mime type of file data
-            if (fileName != null && fileType != null) {
-               mimeType = getMimeType(fileName + "." +fileType);
+            if (fileType != null) {
+                // If file type is already specified, should just take the mimeType from it
+                mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileType);
             } else {
               mimeType = getMimeType(url);
             }
