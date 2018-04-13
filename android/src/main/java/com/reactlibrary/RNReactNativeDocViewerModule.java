@@ -207,7 +207,6 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 URL url2 = new URL(url);
                 HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                 //GET Connection Content length
-                int fileLength = conn.getContentLength();
                 if (auth != null) {
                     conn.setRequestProperty("Cookie", auth);
                 }
@@ -223,6 +222,7 @@ public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
                 System.out.println(f.getPath());
                 FileOutputStream outStream = new FileOutputStream(f);
 
+                int fileLength = conn.getContentLength();
                 /*int readBytes = reader.read(buffer);
                 while (readBytes > 0) {
                     outStream.write(buffer, 0, readBytes);
