@@ -1,20 +1,17 @@
-//
-//  RNReactNativeDocViewer.h
-//  RNReactNativeDocViewer
-//
-//  Created by Philipp Hecht on 10/03/17.
-//  Copyright (c) 2017 Philipp Hecht. All rights reserved.
-//
-#if __has_include("RCTBridgeModule.h")
-#import "RCTBridgeModule.h"
-#else
-#import <React/RCTBridgeModule.h>
-#endif
 #import <Foundation/Foundation.h>
 #import <QuickLook/QuickLook.h>
+#import <React/RCTEventEmitter.h>
+#import <React/RCTBridgeModule.h>
+#import <React/RCTLog.h>
 
-@interface RNReactNativeDocViewer : NSObject <RCTBridgeModule, QLPreviewControllerDelegate, QLPreviewControllerDataSource, QLPreviewItem>
+
+
+@interface RNReactNativeDocViewer : RCTEventEmitter <RCTBridgeModule, QLPreviewControllerDelegate, QLPreviewControllerDataSource, QLPreviewItem, UIAlertViewDelegate>
 @property (strong, nonatomic) NSURL* fileUrl;
+@property (strong, nonatomic) NSString* optionalFileName;
 @property (readonly) NSURL* previewItemURL;
+@property (strong, nonatomic) NSData* downloadResumeData;
+@property (strong, nonatomic) UIAlertView* alert;
+@property (strong, nonatomic) UIProgressView* downloadProgressView;
 @end
   

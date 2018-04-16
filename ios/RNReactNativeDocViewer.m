@@ -7,18 +7,23 @@
 //
 #import "RNReactNativeDocViewer.h"
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-#if __has_include("RCTLog.h")
-#import "RCTLog.h"
-#else
-#import <React/RCTLog.h>
-#endif
+#import "QLCustomPreviewItem.h"
+
 
 
 @implementation RNReactNativeDocViewer
+CGFloat prog;
+@synthesize bridge = _bridge;
+
 
 RCT_EXPORT_MODULE()
+
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"RNDownloaderProgress", @"DoneButtonEvent", @"CancelEvent", @"OKEvent"];
+}
 
 - (dispatch_queue_t)methodQueue
 {
@@ -30,6 +35,13 @@ RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
     RCTLogInfo(@"TEST Module %@ at %@", name, location);
 }
 
+RCT_EXPORT_METHOD(statusProgress:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
+{
+
+   callback(@[[NSNull null], @(prog)]);
+    
+}
+
 /**
  * openDoc
  * open Base64 String
@@ -37,8 +49,12 @@ RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
  */
 RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
-    
+
     __weak RNReactNativeDocViewer* weakSelf = self;
+    //Download Progress
+    NSDictionary* dict_download = [array objectAtIndex:0];
+    NSString* urlStrdownload = dict_download[@"url"];
+    [self hitServerForUrl:urlStrdownload];
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
@@ -50,8 +66,21 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
         RCTLogInfo(@"Url %@", url);
+        RCTLogInfo(@"FileNameOptional %@", fileNameOptional);
+        NSArray *parts = [urlStr componentsSeparatedByString:@"/"];
+        NSString *fileNameExported = [parts lastObject];
+        //Custom Filename
+        NSString *fileName = @"";
+        if([fileNameOptional length] > 0){
+            NSString* fileExt = [fileNameExported pathExtension];
+            fileName = [NSString stringWithFormat:@"%@%c%@", fileNameOptional , '.', fileExt];
+        }else{
+            //get File Name example a.pdf from Url http://xyz/a.pdf
+            fileName = [NSString stringWithFormat:@"%@", fileNameExported];
+        }
+        
         //From the www
-        if ([urlStr containsString:@"http"]) {
+        if ([urlStr containsString:@"http"] || [urlStr containsString:@"https"]) {
             if (dat == nil) {
                 if (callback) {
                     callback(@[[NSNull null], @"Doc Url not found"]);
@@ -77,20 +106,15 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
             [dat writeToURL:tmpFileUrl atomically:YES];
             weakSelf.fileUrl = tmpFileUrl;
+            
         } else {
-            //Local File
-            NSString* fileName = [url lastPathComponent];
-            NSString* fileExt = [fileName pathExtension];
-            //NSString* fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", filetype];
-            RCTLogInfo(@"Pretending to create an event at %@", fileExt);
-            if([fileExt length] == 0){
-                fileName = [NSString stringWithFormat:@"%@%@", fileName, @".pdf"];
-            }
+            
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:urlStr];
             weakSelf.fileUrl = tmpFileUrl;
+            weakSelf.optionalFileName = fileNameOptional;
         }
-    
-        
+
+
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
             cntr.delegate = weakSelf;
@@ -99,9 +123,16 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
                 callback(@[[NSNull null], array]);
             }
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-            [root presentViewController:cntr animated:YES completion:nil];
+            while (root.presentedViewController) {
+                root = [root presentedViewController];
+            }
+            
+          
+            [root presentViewController:cntr animated:YES completion:^{
+                
+            }];
         });
-        
+
     });
 }
 
@@ -114,6 +145,9 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
 RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
     __weak RNReactNativeDocViewer* weakSelf = self;
+    NSDictionary* dict_download = [array objectAtIndex:0];
+    NSString* urlStrdownload = dict_download[@"url"];
+    [self hitServerForUrl:urlStrdownload];
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
@@ -143,7 +177,7 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
 
         [dat writeToURL:tmpFileUrl atomically:YES];
         weakSelf.fileUrl = tmpFileUrl;
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
             cntr.delegate = weakSelf;
@@ -152,9 +186,12 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
                 callback(@[[NSNull null], @"Data"]);
             }
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            while (root.presentedViewController) {
+                root = [root presentedViewController];
+            }
             [root presentViewController:cntr animated:YES completion:nil];
         });
-        
+
     });
 }
 
@@ -165,7 +202,7 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
  */
 RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
-    
+
     __weak RNReactNativeDocViewer* weakSelf = self;
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
@@ -191,7 +228,7 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
 
         [dat writeToURL:tmpFileUrl atomically:YES];
         weakSelf.fileUrl = tmpFileUrl;
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
             cntr.delegate = weakSelf;
@@ -200,9 +237,12 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
                 callback(@[[NSNull null], @"Data"]);
             }
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            while (root.presentedViewController) {
+                root = [root presentedViewController];
+            }
             [root presentViewController:cntr animated:YES completion:nil];
         });
-        
+
     });
 }
 
@@ -210,35 +250,43 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
 //Movie Files mp4
 RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)callback)
 {
-  //NSDictionary* dict = [array objectAtIndex:0];
-  NSString *_uri = file;
-
-  NSString* mediaFilePath = [[NSBundle mainBundle] pathForResource:_uri ofType:nil];
-  NSAssert(mediaFilePath, @"Media not found: %@", _uri);
-
-  NSURL *fileURL = [NSURL fileURLWithPath:mediaFilePath];
-
-  dispatch_async(dispatch_get_main_queue(), ^{
-
-    AVPlayerViewController *movieViewController = [[AVPlayerViewController alloc] init];
-
-    movieViewController.player = [AVPlayer playerWithURL:fileURL];
-
-    [movieViewController.player play];
-
-    movieViewController = movieViewController;
-
-    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    UIView *view = [ctrl view];
-
-    view.window.windowLevel = UIWindowLevelStatusBar;
-      if (callback) {
-          callback(@[[NSNull null], @"true"]);
-      }
-
-    [ctrl presentViewController:movieViewController animated:TRUE completion: nil];
-
-  });
+    //NSDictionary* dict = [array objectAtIndex:0];
+    NSString *_uri = file;
+    
+    
+    NSURL *fileURL = nil;
+    if ([_uri containsString:@"http"] || [_uri containsString:@"https"]) {
+        fileURL = [NSURL URLWithString:_uri];
+    }else{
+        NSString* mediaFilePath = [[NSBundle mainBundle] pathForResource:_uri ofType:nil];
+        NSAssert(mediaFilePath, @"Media not found: %@", _uri);
+        fileURL = [NSURL fileURLWithPath:mediaFilePath];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        AVPlayerViewController *movieViewController = [[AVPlayerViewController alloc] init];
+        
+        movieViewController.player = [AVPlayer playerWithURL:fileURL];
+        
+        [movieViewController.player play];
+        
+        movieViewController = movieViewController;
+        
+        UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        UIView *view = [ctrl view];
+        
+        view.window.windowLevel = UIWindowLevelStatusBar;
+        if (callback) {
+            callback(@[[NSNull null], @"true"]);
+        }
+        
+        [ctrl presentViewController:movieViewController animated:TRUE completion: nil];
+        
+    });
+}
+//Dismiss QuickViewController
+- (void)previewControllerDidDismiss:(QLPreviewController *)controller {
+    [self DoneButtonClicked];
 }
 
 - (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
@@ -248,6 +296,10 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
 
 - (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index
 {
+    if(self.optionalFileName) {
+        QLCustomPreviewItem *previewItem = [[QLCustomPreviewItem alloc] initWithURL:self.fileUrl optionalFileName:self.optionalFileName];
+        return previewItem;
+    }
     return self;
 }
 
@@ -259,6 +311,94 @@ RCT_EXPORT_METHOD(playMovie:(NSString *)file callback:(RCTResponseSenderBlock)ca
 }
 
 
+//Download Task example
+- (void)hitServerForUrl:(NSString*)urlString {
+    NSURL *requestUrl = [NSURL URLWithString:urlString];
+    
+    NSURLSessionConfiguration *defaultConfigurationObject = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultConfigurationObject delegate:self delegateQueue: nil];
+    
+    NSURLSessionDownloadTask *fileDownloadTask = [defaultSession downloadTaskWithURL:requestUrl];
+    
+    [fileDownloadTask resume];
+    
+}
+
+
+- (void)DoneButtonClicked {
+    [self sendEventWithName:@"DoneButtonEvent" body:@{ @"close": @true}];
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    if (error != nil) {
+        NSData *resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData];
+        self.downloadResumeData = resumeData;
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten
+ totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        //float progressValue = totalBytesWritten/totalBytesExpectedToWrite;
+        prog = (float)totalBytesWritten/totalBytesExpectedToWrite;
+        //NSLog(@"downloaded %d%%", (int)(100.0*prog));
+        NSNumber *progress = @([@(totalBytesWritten) floatValue]/[@(totalBytesExpectedToWrite) floatValue] * 100.0);
+        [self sendEventWithName:@"RNDownloaderProgress" body:@{ @"totalBytesWritten": @(totalBytesWritten),
+                                                                @"totalBytesExpectedToWrite": @(totalBytesExpectedToWrite),
+                                                                @"progress": progress }];
+
+    });
+}
+
+
+RCT_EXPORT_METHOD(showAlert:(NSString *)msg) {
+    
+    // We'll show UIAlerView to know listener successful.
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
+    
+    
+}
+
+#pragma mark - UIAlertView delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 0) {
+        // Sent event tap on Cancel
+        [self sendEventWithName:@"CancelEvent" body:@"Tap on Cancel"];
+        
+    } else if (buttonIndex == 1) {
+        // Sent event tap on Ok
+        [self sendEventWithName:@"OKEvent" body:@"Tap on OK"];
+    }
+}
+
+/*- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+ didFinishDownloadingToURL:(NSURL *)location {
+ 
+ NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+ NSURL *documentsDirectoryURL = [NSURL fileURLWithPath:documentsPath];
+ NSURL *documentURL = [documentsDirectoryURL URLByAppendingPathComponent:[downloadTask.response suggestedFilename]];
+ NSError *error;
+ 
+ NSString *filePath = [documentsPath stringByAppendingPathComponent:[downloadTask.response suggestedFilename]];
+ NSLog(@"file path : %@", filePath);
+ if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+ //Remove the old file from directory
+ }
+ 
+ [[NSFileManager defaultManager] moveItemAtURL:location
+ toURL:documentURL
+ error:&error];
+ if (error){
+ //Handle error here
+ }
+ }*/
 
 @end
-  
