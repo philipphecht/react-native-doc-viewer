@@ -205,14 +205,14 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
                 }
 
                 URL url2 = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                 File f;
                 try {
-                    HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                     InputStream reader = conn.getInputStream();
 
                     // use cache
-                    f = cache != null && cache ? new File(outputDir, fileName) : File.createTempFile(FILE_TYPE_PREFIX, "." + extension,
-                            outputDir);
+                    f = cache != null && cache ? new File(outputDir, fileName)
+                            : File.createTempFile(FILE_TYPE_PREFIX, "." + extension, outputDir);
 
                     // make sure the receiving app can read this file
                     f.setReadable(true, false);
@@ -247,13 +247,15 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
                     } else {
                         System.out.println("File doesn't exist");
                     }
+
+                    return f;
                 } catch (Exception err) {
                     err.printStackTrace();
                 } finally {
                     conn.disconnect();
                 }
 
-                return f;
+                return null;
             }
 
 
