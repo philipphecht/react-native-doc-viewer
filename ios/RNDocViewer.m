@@ -56,25 +56,45 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
         NSString* fileNameOptional = dict[@"fileName"];
-        NSString* fileName = fileNameOptional;
         NSString* fileType = dict[@"fileType"];
-        NSString* defaultFileType = @"pdf";
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
         RCTLogInfo(@"Url %@", url);
         RCTLogInfo(@"FileNameOptional %@", fileNameOptional);
-        NSArray *parts = [urlStr componentsSeparatedByString:@"/"];
-        NSString *fileNameExported = [parts lastObject];
+        NSArray* parts = [urlStr componentsSeparatedByString:@"/"];
+        NSArray* fileNameParts = [[parts lastObject] componentsSeparatedByString:@"?"];    // to remove any query string on url
+        NSString* fileNameExported = [fileNameParts firstObject];
+        NSString* fileExt = [fileNameExported pathExtension];
         //Custom Filename
-        NSString *fileName = @"";
-        if([fileNameOptional length] > 0){
-            NSString* fileExt = [fileNameExported pathExtension];
-            fileName = [NSString stringWithFormat:@"%@%c%@", fileNameOptional , '.', fileExt];
-        }else{
-            //get File Name example a.pdf from Url http://xyz/a.pdf
-            fileName = [NSString stringWithFormat:@"%@", fileNameExported];
+        NSString* fileName = @"";
+
+        if ([fileNameOptional length] > 0 && [fileType length] > 0) {    // both fileNameOptional and fileType are given
+            fileExt = fileType;
+            NSString* extOnFileNameOptional = [fileNameOptional pathExtension];   // ext from fileNameOptional
+            if ([extOnFileNameOptional length] > 0) {   // if ext on fileNameOptional is found, just delete it
+                fileName = [fileNameOptional stringByDeletingPathExtension];
+            } else {
+                fileName = fileNameOptional;
+            }
+        } else if ([fileNameOptional length] > 0) {    // fileType is not given
+            NSString* extOnFileNameOptional = [fileNameOptional pathExtension];   // ext from fileNameOptional
+            if ([fileExt length] > 0) {   // ext from url is found
+                if ([extOnFileNameOptional length] > 0) {   // if ext on fileNameOptional is found, just delete it
+                    fileName = [fileNameOptional stringByDeletingPathExtension];
+                } else {
+                    fileName = fileNameOptional;
+                }
+            } else {    // ext is missing from url
+                if ([extOnFileNameOptional length] > 0) {
+                    fileName = [fileNameOptional stringByDeletingPathExtension];
+                    fileExt = extOnFileNameOptional;
+                }    // else fileExt is empty string
+            }
         }
-        
+        if ([fileExt length] > 0) {
+            fileName = [NSString stringWithFormat:@"%@%c%@", fileName , '.', fileExt];
+        }
+
         //From the www
         if ([urlStr containsString:@"http"] || [urlStr containsString:@"https"]) {
             if (dat == nil) {
@@ -83,33 +103,16 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
                 }
                 return;
             }
-            NSString* fileNameFromURL = [url lastPathComponent];
-            NSString* fileExt = [fileNameFromURL pathExtension];
-            RCTLogInfo(@"file extension found %@", fileExt);
-            if([fileType length] == 0) {
-                if([fileExt length] == 0){
-                    fileExt = defaultFileType;
-                }
-            } else {
-                fileExt = fileType;
-            }
-            if([fileNameOptional length] == 0) {
-                fileName = [fileNameFromURL stringByDeletingPathExtension];
-            }
-            fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", fileExt];
 
             NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
             [dat writeToURL:tmpFileUrl atomically:YES];
             weakSelf.fileUrl = tmpFileUrl;
-            
         } else {
-            
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:urlStr];
             weakSelf.fileUrl = tmpFileUrl;
             weakSelf.optionalFileName = fileNameOptional;
         }
-
 
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
