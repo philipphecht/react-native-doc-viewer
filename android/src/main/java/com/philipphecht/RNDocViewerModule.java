@@ -208,6 +208,9 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
                 HttpURLConnection conn = (HttpURLConnection) url2.openConnection();
                 File f;
                 try {
+                    if (auth != null) {
+                        conn.setRequestProperty("Cookie", auth);
+                    }
                     InputStream reader = conn.getInputStream();
 
                     // use cache
@@ -226,9 +229,6 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
                         outStream.write(buffer, 0, readBytes);
                         readBytes = reader.read(buffer);
                     }*/
-                    if (auth != null) {
-                        conn.setRequestProperty("Cookie", auth);
-                    }
                     byte[] buffer = new byte[4096];
                     long total = 0;
                     int readBytes = reader.read(buffer);
