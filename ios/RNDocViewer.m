@@ -1,27 +1,25 @@
 //
-//  RNReactNativeDocViewer.m
-//  RNReactNativeDocViewer
+//  RNDocViewer.m
+//  RNDocViewer
 //
 //  Created by Philipp Hecht on 10/03/17.
 //  Copyright (c) 2017 Philipp Hecht. All rights reserved.
 //
-#import "RNReactNativeDocViewer.h"
+#import "RNDocViewer.h"
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
 #import "QLCustomPreviewItem.h"
 
-
-
-@implementation RNReactNativeDocViewer
+@implementation RNDocViewer
 CGFloat prog;
 @synthesize bridge = _bridge;
 
-
 RCT_EXPORT_MODULE()
 
-- (NSArray<NSString *> *)supportedEvents {
+- (NSArray<NSString *> *)supportedEvents
+{
     return @[@"RNDownloaderProgress", @"DoneButtonEvent", @"CancelEvent", @"OKEvent"];
 }
 
@@ -37,9 +35,7 @@ RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
 
 RCT_EXPORT_METHOD(statusProgress:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
-
    callback(@[[NSNull null], @(prog)]);
-    
 }
 
 /**
@@ -50,7 +46,7 @@ RCT_EXPORT_METHOD(statusProgress:(NSArray *)array callback:(RCTResponseSenderBlo
 RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
 
-    __weak RNReactNativeDocViewer* weakSelf = self;
+    __weak RNDocViewer* weakSelf = self;
     //Download Progress
     NSDictionary* dict_download = [array objectAtIndex:0];
     NSString* urlStrdownload = dict_download[@"url"];
@@ -144,7 +140,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
  */
 RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
-    __weak RNReactNativeDocViewer* weakSelf = self;
+    __weak RNDocViewer* weakSelf = self;
     NSDictionary* dict_download = [array objectAtIndex:0];
     NSString* urlStrdownload = dict_download[@"url"];
     [self hitServerForUrl:urlStrdownload];
@@ -203,7 +199,7 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
 RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
 
-    __weak RNReactNativeDocViewer* weakSelf = self;
+    __weak RNDocViewer* weakSelf = self;
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
