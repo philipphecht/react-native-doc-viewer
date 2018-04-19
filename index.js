@@ -1,4 +1,4 @@
 
 import { NativeModules } from 'react-native';
-const RNReactNativeDocViewer = NativeModules.RNReactNativeDocViewer;
-export default RNReactNativeDocViewer;
+const RNDocViewer = NativeModules.RNDocViewer;
+export default RNDocViewer;

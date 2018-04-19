@@ -59,7 +59,10 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
     dispatch_async(asyncQueue, ^{
         NSDictionary* dict = [array objectAtIndex:0];
         NSString* urlStr = dict[@"url"];
-        NSString* fileNameOptional = dict[@"fileNameOptional"];
+        NSString* fileNameOptional = dict[@"fileName"];
+        NSString* fileName = fileNameOptional;
+        NSString* fileType = dict[@"fileType"];
+        NSString* defaultFileType = @"pdf";
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
         RCTLogInfo(@"Url %@", url);
@@ -84,6 +87,20 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
                 }
                 return;
             }
+            NSString* fileNameFromURL = [url lastPathComponent];
+            NSString* fileExt = [fileNameFromURL pathExtension];
+            RCTLogInfo(@"file extension found %@", fileExt);
+            if([fileType length] == 0) {
+                if([fileExt length] == 0){
+                    fileExt = defaultFileType;
+                }
+            } else {
+                fileExt = fileType;
+            }
+            if([fileNameOptional length] == 0) {
+                fileName = [fileNameFromURL stringByDeletingPathExtension];
+            }
+            fileName = [NSString stringWithFormat:@"%@%@%@", fileName, @".", fileExt];
 
             NSString* path = [NSTemporaryDirectory() stringByAppendingPathComponent: fileName];
             NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];

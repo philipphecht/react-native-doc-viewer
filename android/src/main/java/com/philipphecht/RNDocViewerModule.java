@@ -44,20 +44,20 @@ import android.widget.Toast;
 import android.util.Log;
 import android.webkit.WebView;
 
-public class RNReactNativeDocViewerModule extends ReactContextBaseJavaModule {
+public class RNDocViewerModule extends ReactContextBaseJavaModule {
   public static final int ERROR_NO_HANDLER_FOR_DATA_TYPE = 53;
   public static final int ERROR_FILE_NOT_FOUND = 2;
   public static final int ERROR_UNKNOWN_ERROR = 1;
   private final ReactApplicationContext reactContext;
 
-  public RNReactNativeDocViewerModule(ReactApplicationContext reactContext) {
+  public RNDocViewerModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
   }
 
   @Override
   public String getName() {
-    return "RNReactNativeDocViewer";
+    return "RNDocViewer";
   }
 
   @ReactMethod
