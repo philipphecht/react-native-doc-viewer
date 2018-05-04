@@ -23,13 +23,8 @@
   "peerDependencies": {
     "react": "^16.3.0-alpha.1",
     "react-native": "0.54.3",
-<<<<<<< HEAD
 		"react-native-fs":"^2.3.2",
 		"react-native-doc-viewer": "2.7.8"
-=======
-    "react-native-fs":"^2.3.2",
-    "react-native-doc-viewer": "2.7.7"
->>>>>>> 4a984119faa71946aec3fb9e2f836d11106c8566
   },
   "repository": {
     "type": "git",
