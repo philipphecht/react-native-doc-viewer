@@ -3,7 +3,7 @@ package com.reactdocviewerexample;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.reactlibrary.RNReactNativeDocViewerPackage;
+import com.philipphecht.RNReactNativeDocViewerPackage;
 import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
