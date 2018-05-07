@@ -426,10 +426,6 @@ export default class DocumentViewerExample extends Component {
 ## Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :)
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A8YE92K9QM7NA)
-
-Bitcoin wallet: 122dhCT98R6jrP5ahCKMRA1UupawtU9cVP
-
 Etherum wallet: 0x0f4aeF69647Bff2526f59911C32e4F3A0D7A4f14
 
 
