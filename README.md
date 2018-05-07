@@ -426,7 +426,7 @@ export default class DocumentViewerExample extends Component {
 ## Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :)
 
-Etherum wallet: 0x0f4aeF69647Bff2526f59911C32e4F3A0D7A4f14
+Etherum wallet: 0x124F99647a904240945d8B582eEf1E3CD6D00a8a
 
 
 
