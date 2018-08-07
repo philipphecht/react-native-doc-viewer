@@ -281,6 +281,7 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
     private static String getMimeType(String url) {
         String mimeType = null;
         System.out.println("Url: " + url);
+        url = url.replaceAll(" ", "");
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if (extension != null) {
             mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
