@@ -271,6 +271,116 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
             return null;
         }
     }
+    private File copyFile(InputStream in, String fileName, Boolean cache, String fileType, byte[] bytesData, Callback callback) {
+
+        try {
+            Context context = getReactApplicationContext().getBaseContext();
+            File outputDir = context.getCacheDir();
+            if (bytesData.length > 0) {
+                // use cache
+                File f = cache != null && cache ? new File(outputDir, fileName) : File.createTempFile(FILE_TYPE_PREFIX, "." + fileType,
+                        outputDir);
+                System.out.println("Bytes will be creating a file");
+                final FileOutputStream fileOutputStream;
+                try {
+                    fileOutputStream = new FileOutputStream(f);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+
+                final BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
+                        fileOutputStream);
+                try {
+                    bufferedOutputStream.write(bytesData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                } finally {
+                    try {
+                        bufferedOutputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return f;
+            } else {
+                String extension = MimeTypeMap.getFileExtensionFromUrl(fileName);
+                System.out.println("Extensions DownloadFile " + extension);
+                if (extension.equals("") && fileType.equals("")) {
+                    extension = "pdf";
+                    System.out.println("extension (default): " + extension);
+                }
+
+                if (fileType != "" && extension.equals("")) {
+                    extension = fileType;
+                    System.out.println("extension (default): " + extension);
+                }
+
+                // check has extension
+                if (fileName.indexOf("\\.") == -1) {
+                    fileName = fileName + '.' + extension;
+                }
+                // if use cache, check exist
+                if (cache != null && cache) {
+                    File existFile = new File(outputDir, fileName);
+                    if (existFile.exists()) {
+                        return existFile;
+                    }
+                }
+
+
+                File f;
+                try {
+                    // use cache
+                    f = cache != null && cache ? new File(outputDir, fileName)
+                            : File.createTempFile(FILE_TYPE_PREFIX, "." + extension, outputDir);
+
+                    // make sure the receiving app can read this file
+                    f.setReadable(true, false);
+                    System.out.println(f.getPath());
+
+                    try {
+                        FileOutputStream outStream = new FileOutputStream(f);
+                        try {
+                            // Transfer bytes from in to out
+                            byte[] buf = new byte[1024];
+                            int len;
+                            while ((len = in.read(buf)) > 0) {
+                                outStream.write(buf, 0, len);
+                            }
+                        } finally {
+                            outStream.close();
+                        }
+                    } finally {
+                        in.close();
+                    }
+
+                    if (f.exists()) {
+                        System.out.println("File exists");
+                    } else {
+                        System.out.println("File doesn't exist");
+                    }
+
+                    return f;
+                } catch (Exception err) {
+                    err.printStackTrace();
+                }
+
+                return null;
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            callback.invoke(ERROR_FILE_NOT_FOUND);
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            callback.invoke(ERROR_UNKNOWN_ERROR);
+            return null;
+        }
+    }
      /**
      * Returns the MIME Type of the file by looking at file name extension in
      * the URL.
@@ -281,6 +391,7 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
     private static String getMimeType(String url) {
         String mimeType = null;
         System.out.println("Url: " + url);
+        url = url.replaceAll(" ", "");
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if (extension != null) {
             mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
@@ -315,12 +426,20 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
 
         @Override
         protected File doInBackground(Void... arg0) {
-            if (!url.startsWith("file://")) {
-                System.out.println("Url to download" +url);
+            if (url.startsWith("content://")) {
+                File file = null;
+                try {
+                    InputStream in = getCurrentActivity().getContentResolver().openInputStream(Uri.parse(url));
+                    file = copyFile(in, fileName, cache, fileType, bytesData, callback);
+                } catch (FileNotFoundException e) {
+                    System.out.println(e);
+                }
+                return  file;
+            } else if (!url.startsWith("file://")) {
+                System.out.println("Url to download" + url);
                 return downloadFile(url, fileName, cache, fileType, bytesData, callback);
             } else {
-                File file = new File(url.replace("file://", ""));
-                return file;
+                return new File(url.replace("file://", ""));
             }
         }
 
