@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
 #import "QLCustomPreviewItem.h"
+#import "CustomQLPreviewController.h"
 
 @implementation RNDocViewer
 CGFloat prog;
@@ -115,7 +116,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            QLPreviewController* cntr = [[QLPreviewController alloc] init];
+            CustomQLPreviewController* cntr = [[CustomQLPreviewController alloc] init];
             cntr.delegate = weakSelf;
             cntr.dataSource = weakSelf;
             if (callback) {
@@ -178,7 +179,7 @@ RCT_EXPORT_METHOD(openDocBinaryinUrl:(NSArray *)array callback:(RCTResponseSende
         weakSelf.fileUrl = tmpFileUrl;
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            QLPreviewController* cntr = [[QLPreviewController alloc] init];
+            CustomQLPreviewController* cntr = [[CustomQLPreviewController alloc] init];
             cntr.delegate = weakSelf;
             cntr.dataSource = weakSelf;
             if (callback) {
@@ -229,7 +230,7 @@ RCT_EXPORT_METHOD(openDocb64:(NSArray *)array callback:(RCTResponseSenderBlock)c
         weakSelf.fileUrl = tmpFileUrl;
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            QLPreviewController* cntr = [[QLPreviewController alloc] init];
+            CustomQLPreviewController* cntr = [[CustomQLPreviewController alloc] init];
             cntr.delegate = weakSelf;
             cntr.dataSource = weakSelf;
             if (callback) {

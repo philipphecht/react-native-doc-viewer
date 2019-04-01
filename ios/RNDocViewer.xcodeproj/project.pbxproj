@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F6C3ED22251AFBA00814C17 /* CustomQLPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6C3ED12251AFBA00814C17 /* CustomQLPreviewController.m */; };
+		6F6C3ED52251B69E00814C17 /* UINavigationItem+CustomQLPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6C3ED42251B69E00814C17 /* UINavigationItem+CustomQLPreview.m */; };
 		AAFA387B2088EDB000994D8E /* RNDocViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFA38792088EDB000994D8E /* RNDocViewer.m */; };
 		FAC8A856206AA17500EEE084 /* QLCustomPreviewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC8A855206AA17400EEE084 /* QLCustomPreviewItem.m */; };
 /* End PBXBuildFile section */
@@ -25,6 +27,10 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNDocViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNDocViewer.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F6C3ED02251AFBA00814C17 /* CustomQLPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomQLPreviewController.h; sourceTree = "<group>"; };
+		6F6C3ED12251AFBA00814C17 /* CustomQLPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomQLPreviewController.m; sourceTree = "<group>"; };
+		6F6C3ED32251B69E00814C17 /* UINavigationItem+CustomQLPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+CustomQLPreview.h"; sourceTree = "<group>"; };
+		6F6C3ED42251B69E00814C17 /* UINavigationItem+CustomQLPreview.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+CustomQLPreview.m"; sourceTree = "<group>"; };
 		AAFA38792088EDB000994D8E /* RNDocViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNDocViewer.m; sourceTree = "<group>"; };
 		AAFA387A2088EDB000994D8E /* RNDocViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNDocViewer.h; sourceTree = "<group>"; };
 		FAC8A854206AA17400EEE084 /* QLCustomPreviewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QLCustomPreviewItem.h; sourceTree = "<group>"; };
@@ -55,6 +61,10 @@
 			children = (
 				AAFA387A2088EDB000994D8E /* RNDocViewer.h */,
 				AAFA38792088EDB000994D8E /* RNDocViewer.m */,
+				6F6C3ED02251AFBA00814C17 /* CustomQLPreviewController.h */,
+				6F6C3ED12251AFBA00814C17 /* CustomQLPreviewController.m */,
+				6F6C3ED32251B69E00814C17 /* UINavigationItem+CustomQLPreview.h */,
+				6F6C3ED42251B69E00814C17 /* UINavigationItem+CustomQLPreview.m */,
 				FAC8A854206AA17400EEE084 /* QLCustomPreviewItem.h */,
 				FAC8A855206AA17400EEE084 /* QLCustomPreviewItem.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
@@ -118,7 +128,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAFA387B2088EDB000994D8E /* RNDocViewer.m in Sources */,
+				6F6C3ED22251AFBA00814C17 /* CustomQLPreviewController.m in Sources */,
 				FAC8A856206AA17500EEE084 /* QLCustomPreviewItem.m in Sources */,
+				6F6C3ED52251B69E00814C17 /* UINavigationItem+CustomQLPreview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
