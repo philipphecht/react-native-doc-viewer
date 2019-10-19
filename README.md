@@ -62,7 +62,7 @@ If your project uses CocoaPods to manage React installation (especially with Exp
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-doc-viewer` and add `RNDocViewer.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNDocViewer.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Linked Frameworks and Libraries must have this 2 Libraries (AssetsLibrary.framework & QuickLock.framework). When not you have to add them.
+4. Linked Frameworks and Libraries must have this 2 Libraries (AssetsLibrary.framework & QuickLook.framework). When not you have to add them.
 
    ![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/screenshot_xcode_addlibrary.png "Xcode add Library")
 
@@ -426,11 +426,7 @@ export default class DocumentViewerExample extends Component {
 ## Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :)
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A8YE92K9QM7NA)
-
-Bitcoin wallet: 122dhCT98R6jrP5ahCKMRA1UupawtU9cVP
-
-Etherum wallet: 0x68b93b03eb61a27b125416a5963f1e17c3ebad21
+Etherum wallet: 0x124F99647a904240945d8B582eEf1E3CD6D00a8a
 
 
 
