@@ -19,6 +19,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
+3.0.0 -   React Native 0.61.3 Support
 2.7.8 -   XLS Exmaple Local File IOS 97-2003
 2.7.7 -   "react": "^16.3.0-alpha.1","react-native": "0.54.3"
 2.7.5 -   Pull Request local file from LeMinh1995 + Pull Request podspec Form Linh1987
@@ -50,6 +51,7 @@ If your project uses CocoaPods to manage React installation (especially with Exp
 
 2. Add the plugin dependency to your Podfile, pointing at the path where NPM installed it:
 
+`pod 'RNReactNativeDocViewer', path: '../node_modules/react-native-doc-viewer'`
 `pod 'RNReactNativeDocViewer', path: '../node_modules/react-native-doc-viewer'`
 
 3. Run `pod install`
@@ -425,8 +427,6 @@ export default class DocumentViewerExample extends Component {
 
 ## Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :)
-
-Etherum wallet: 0x124F99647a904240945d8B582eEf1E3CD6D00a8a
 
 
 
