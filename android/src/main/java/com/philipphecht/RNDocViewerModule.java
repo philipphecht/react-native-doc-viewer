@@ -9,7 +9,6 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.views.webview.ReactWebViewManager;
 
 /* bridge react native
 int size();
