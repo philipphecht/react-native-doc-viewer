@@ -9,7 +9,6 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.views.webview.ReactWebViewManager;
 
 /* bridge react native
 int size();
@@ -31,7 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -250,11 +249,11 @@ public class RNDocViewerModule extends ReactContextBaseJavaModule {
 
                     return f;
                 } catch (Exception err) {
-                    err.printStackTrace();
+                  callback.invoke(ERROR_FILE_NOT_FOUND);
+                  err.printStackTrace();
                 } finally {
                     conn.disconnect();
                 }
-
                 return null;
             }
 
