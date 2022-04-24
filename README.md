@@ -110,7 +110,7 @@ If your project uses CocoaPods to manage React installation (especially with Exp
 
 | resource                    | description                       |
 |:----------------------------|:----------------------------------|
-| `openDoc`      | {url:String,fileNameOptional:String (optional)} |
+| `openDoc`      | {url:String,fileName:String (optional)} |
 | `openDocb64`| {url:String,fileName:String,fileType:String }|
 | `openDocBinaryinUrl` | {url:String,fileName:String,fileType:String } |
 
@@ -187,7 +187,7 @@ export default class DocumentViewerExample extends Component {
     if(Platform.OS === 'ios'){
       OpenFile.openDoc([{
         url:"https://calibre-ebook.com/downloads/demos/demo.docx",
-        fileNameOptional:"test filename"
+        fileName:"test filename"
       }], (error, url) => {
          if (error) {
           this.setState({animating: false});
@@ -226,7 +226,7 @@ export default class DocumentViewerExample extends Component {
     this.setState({animating: true});
     if(Platform.OS === 'ios'){
         OpenFile.openDoc([{url:SavePath+"/react-native-logo.jpg",
-        fileNameOptional:"test filename"
+        fileName:"test filename"
       }], (error, url) => {
          if (error) {
           this.setState({animating: false});
@@ -256,7 +256,7 @@ export default class DocumentViewerExample extends Component {
       this.setState({animating: true});
       if(Platform.OS === 'ios'){
           OpenFile.openDoc([{url:SavePath+"/SampleXLSFile_19kb.xls",
-          fileNameOptional:"Sample XLS 94-2003"
+          fileName:"Sample XLS 94-2003"
         }], (error, url) => {
            if (error) {
             this.setState({animating: false});
