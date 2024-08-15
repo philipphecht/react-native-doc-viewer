@@ -6,7 +6,7 @@
 A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc, ppt, xlsx, docx, pptx etc.)
 
 #### 2017 Roadmap
-- Download Progess Event Listener for big Files Android
+- Download Progress Event Listener for big Files Android
 #### 2018 Roadmap
 - Android file without external Application
 - Windows Phone Support
@@ -19,7 +19,7 @@ A React Native bridge module: Document Viewer for files (pdf, png, jpg, xls, doc
 Changelog:
 
 ```
-2.7.8 -   XLS Exmaple Local File IOS 97-2003
+2.7.8 -   XLS Example Local File IOS 97-2003
 2.7.7 -   "react": "^16.3.0-alpha.1","react-native": "0.54.3"
 2.7.5 -   Pull Request local file from LeMinh1995 + Pull Request podspec Form Linh1987
 2.7.3 -   Example Local File
